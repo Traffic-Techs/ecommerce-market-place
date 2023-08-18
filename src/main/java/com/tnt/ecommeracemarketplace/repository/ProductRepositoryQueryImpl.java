@@ -1,30 +1,28 @@
 package com.tnt.ecommeracemarketplace.repository;
 
-import static com.tnt.ecommeracemarketplace.entity.QProduct.product;
+import static com.tnt.ecommeracemarketplace.entity.QProducts.products;
 
 import com.querydsl.core.types.Expression;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.tnt.ecommeracemarketplace.entity.Product;
+import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.entity.QProducts;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 
 @RequiredArgsConstructor
 public class ProductRepositoryQueryImpl implements ProductRepositoryQuery{
   private final JPAQueryFactory jpaQueryFactory;
 
   @Override
-  public List<Product> search(ProductSearchCond cond, Pageable pageable) {
-    var query = query(product, cond)
-        .offset(pageable.getOffset())
-        .limit(pageable.getPageSize());
+  public List<Products> search(ProductSearchCond cond) {
+    var query = query(products, cond);
 
-    query.orderBy(product.register_date.desc());
+    query.orderBy(products.title.desc());
 
     var products = query.fetch();
 
@@ -33,22 +31,15 @@ public class ProductRepositoryQueryImpl implements ProductRepositoryQuery{
 
   private <T> JPAQuery<T> query(Expression<T> expr, ProductSearchCond cond) {
     return jpaQueryFactory.select(expr)
-        .from(product)
+        .from(products)
         .where(
-            productTitleEq(cond.getKeyword())
+            productTitleContains(cond.getKeyword())
         );
   }
 
-  private JPAQuery<Long> countQuery(ProductSearchCond cond) {
-    return jpaQueryFactory.select(Wildcard.count)
-        .from(product)
-        .where(
-            productTitleEq(cond.getKeyword())
-        );
-  }
-
-  private BooleanExpression productTitleEq(String keyword) {
-    return Objects.nonNull(keyword) ? product.title.eq(keyword) : null;
+  private BooleanExpression productTitleContains(String keyword) {
+//    return Objects.nonNull(keyword) ? products.title.eq(keyword) : null;
+    return products.title.containsIgnoreCase(keyword);
   }
 
 }

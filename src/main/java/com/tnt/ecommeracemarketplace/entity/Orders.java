@@ -16,32 +16,24 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "products")
-public class Product {
+@Table(name = "orders")
+public class Orders {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false)
-  private String title;
-
-  @Column(nullable = false)
-  private String images;
-
-  @Column(nullable = false)
-  private String description;
-
-  @Column(nullable = false)
-  private Long cost;
+  @CreatedDate
+  private Date order_date;
 
   @Column(nullable = false)
   private Long amount;
 
   @Column(nullable = false)
-  @CreatedDate
-  private Date register_date;
+  private Long total_price;
 
   @Column(nullable = false)
-  private Boolean sale;
+  private Long product_price;
+
 }
