@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EMP</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/productDetail.css">
+</head>
+
+<body>
+<div class="container container-card mt-3">
+  <div class="row">
+    <!-- left side card -->
+    <div class="col-md-6 left-side-card pt-5">
+      <div>
+        <img th:src="${product.images}" alt="Product Image">
+      </div>
+    </div>
+    <!-- right side card -->
+    <div class="col-md-6 pb-2 right-side-card">
+      <div class="main-card">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="heading-card-title-info">
+              <h1 th:text="${product.title}"></h1>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card-product-info pt-3 pb-3">
+              <h5>PRODUCT INFO</h5>
+              <div>
+                <ul>
+                  <li th:each="item : ${product.description.split('\n')}">[[${item}]]</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="price-tag">
+              <span th:text="${product.cost}" class="cost"></span>
+            </div>
+            <div class="add-to-cart-button">
+              <button class="btn btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                ADD TO CART
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

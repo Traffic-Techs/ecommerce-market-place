@@ -3,15 +3,11 @@ package com.tnt.ecommeracemarketplace.repository;
 import static com.tnt.ecommeracemarketplace.entity.QProducts.products;
 
 import com.querydsl.core.types.Expression;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.tnt.ecommeracemarketplace.entity.Products;
-import com.tnt.ecommeracemarketplace.entity.QProducts;
 import java.util.List;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

@@ -37,11 +37,11 @@ public class Products {
   @Column(nullable = false)
   private Long amount;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   @CreatedDate
   private Date register_date;
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   private Boolean sale;
 
   @Builder
