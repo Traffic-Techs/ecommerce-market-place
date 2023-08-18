@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Date;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.data.annotation.CreatedDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(name = "orders")
 public class Orders {
 
   @Id

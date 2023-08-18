@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Search</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 5px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .search-form {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    .search-input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .search-button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .products-list {
+      margin-top: 20px;
+    }
+    .products-item {
+      padding: 10px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Product Search</h1>
+  <form class="search-form">
+    <input class="search-input" type="text" placeholder="Search...">
+    <button class="search-button" type="submit">Search</button>
+  </form>
+  <div class="products-list">
+    <div class="products-item">
+      <span>Product 1</span>
+      <span>Price: $100</span>
+    </div>
+    <div class="products-item">
+      <span>Product 2</span>
+      <span>Price: $200</span>
+    </div>
+    <!-- Add more products items here -->
+  </div>
+</div>
+</body>
+</html>

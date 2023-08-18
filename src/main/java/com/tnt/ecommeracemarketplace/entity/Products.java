@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.util.Date;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -42,4 +43,15 @@ public class Products {
 
   @Column(nullable = false)
   private Boolean sale;
+
+  @Builder
+  public Products(String title, String images, String description, Long cost, Long amount, Date register_date, Boolean sale) {
+    this.title = title;
+    this.images = images;
+    this.description = description;
+    this.cost = cost;
+    this.amount = amount;
+    this.register_date = register_date;
+    this.sale = true;
+  }
 }
