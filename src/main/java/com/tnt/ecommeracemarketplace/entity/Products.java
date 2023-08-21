@@ -45,13 +45,14 @@ public class Products {
   private Boolean sale;
 
   @Builder
-  public Products(String title, String images, String description, Long cost, Long amount, Date register_date, Boolean sale) {
+  public Products(String title, String images, String description, Long cost, Long amount,
+      Date register_date, Boolean sale) {
     this.title = title;
     this.images = images;
     this.description = description;
     this.cost = cost;
     this.amount = amount;
     this.register_date = register_date;
-    this.sale = true;
+    this.sale = sale;
   }
 }
