@@ -1,12 +1,16 @@
 package com.tnt.ecommeracemarketplace.dto;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
+@Setter
+@AllArgsConstructor
 public class ProductListResponseDto {
-  private List<ProductResponseDto> productList;
-  public ProductListResponseDto(List<ProductResponseDto> productList) {
-    this.productList = productList;
-  }
+
+    private List<ProductResponseDto> productList;
+
 }

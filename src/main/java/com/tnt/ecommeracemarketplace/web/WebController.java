@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequiredArgsConstructor
 public class WebController {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    @GetMapping ("/web/products/{productId}")
-    public String productDetailsWeb (@PathVariable Long productId, Model model) {
-        ProductResponseDto product = productService.findProductDetails(productId);
-        model.addAttribute("product", product);
-        return "detailsView"; // 뷰 이름 반환
-    }
+  @GetMapping("/web")
+  public String home() {
+    return "index";
+  }
+
+  @GetMapping("/web/products/{productId}")
+  public String productDetailsWeb(@PathVariable Long productId, Model model) {
+    ProductResponseDto product = productService.findProductDetails(productId);
+    model.addAttribute("product", product);
+    return "detailsView"; // 뷰 이름 반환
+  }
 }

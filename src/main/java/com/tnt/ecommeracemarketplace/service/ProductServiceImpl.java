@@ -1,18 +1,22 @@
 package com.tnt.ecommeracemarketplace.service;
 
+import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
 import com.tnt.ecommeracemarketplace.entity.Products;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductSearchCond;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
@@ -27,29 +31,36 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public ProductListResponseDto getProducts() {
-      List<ProductResponseDto> productList = productRepository.findAll().stream()
-          .map(ProductResponseDto::new)
-          .collect(Collectors.toList());
+    public ProductListResponseDto getProducts(PageDto pageDto) {
+        Page<Products> productPage = productRepository.findAll(pageDto.toPageable());
 
-      return new ProductListResponseDto(productList);
+        List<ProductResponseDto> productList = productPage.getContent().stream()
+                .map(ProductResponseDto::new)
+                .collect(Collectors.toList());
+
+        return new ProductListResponseDto(productList);
     }
 
     // Spring Data 검색
-  //  @Override
-  //  public ProductListResponseDto selectProductList(String keyword) {
-  //    List<ProductResponseDto> productList = productRepository.findByTitleContainingIgnoreCase(keyword).stream()
-  //        .map(ProductResponseDto::new).collect(Collectors.toList());
-  //    return new ProductListResponseDto(productList);
-  //  }
+//      @Override
+//      public ProductListResponseDto selectProductList(String keyword) {
+//        List<ProductResponseDto> productList = productRepository.findByTitleContainingIgnoreCase(keyword).stream()
+//            .map(ProductResponseDto::new).collect(Collectors.toList());
+//        return new ProductListResponseDto(productList);
+//      }
 
     // JPAQueryFactory 검색
     @Override
-    public ProductListResponseDto selectProductList(String keyword) {
-      var cond = ProductSearchCond.builder().keyword(keyword).build();
-      List<ProductResponseDto> productList = productRepository.search(cond).stream()
-          .map(ProductResponseDto::new).collect(Collectors.toList());
-      return new ProductListResponseDto(productList);
+    public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
+        var cond = ProductSearchCond.builder().keyword(keyword).build();
+
+        Pageable pageable = pageDto.toPageable();
+        Page<Products> productPage = productRepository.search(cond, pageable);
+
+        List<ProductResponseDto> productList = productPage.getContent().stream()
+                .map(ProductResponseDto::new).collect(Collectors.toList());
+
+        return new ProductListResponseDto(productList);
     }
 
 }
