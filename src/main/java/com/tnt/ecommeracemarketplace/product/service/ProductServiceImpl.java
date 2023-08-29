@@ -1,10 +1,10 @@
-package com.tnt.ecommeracemarketplace.service;
+package com.tnt.ecommeracemarketplace.product.service;
 
-import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
-import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
-import com.tnt.ecommeracemarketplace.entity.Products;
-import com.tnt.ecommeracemarketplace.repository.ProductRepository;
-import com.tnt.ecommeracemarketplace.repository.ProductSearchCond;
+import com.tnt.ecommeracemarketplace.product.dto.ProductListResponseDto;
+import com.tnt.ecommeracemarketplace.product.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.product.entity.Products;
+import com.tnt.ecommeracemarketplace.product.repository.repository.ProductRepository;
+import com.tnt.ecommeracemarketplace.product.repository.repository.ProductSearchCond;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;

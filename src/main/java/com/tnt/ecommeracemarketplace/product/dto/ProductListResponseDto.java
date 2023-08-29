@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.dto;
+package com.tnt.ecommeracemarketplace.product.dto;
 
 import java.util.List;
 import lombok.Getter;

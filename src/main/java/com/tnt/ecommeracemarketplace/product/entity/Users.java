@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.entity;
+package com.tnt.ecommeracemarketplace.product.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

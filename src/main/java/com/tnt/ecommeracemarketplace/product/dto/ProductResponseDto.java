@@ -1,6 +1,6 @@
-package com.tnt.ecommeracemarketplace.dto;
+package com.tnt.ecommeracemarketplace.product.dto;
 
-import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.product.entity.Products;
 import java.util.Date;
 import lombok.Getter;
 

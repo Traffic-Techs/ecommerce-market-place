@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.repository;
+package com.tnt.ecommeracemarketplace.product.repository.repository;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

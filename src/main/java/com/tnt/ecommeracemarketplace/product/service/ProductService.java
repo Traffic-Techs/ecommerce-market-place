@@ -1,7 +1,7 @@
-package com.tnt.ecommeracemarketplace.service;
+package com.tnt.ecommeracemarketplace.product.service;
 
-import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
-import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.product.dto.ProductListResponseDto;
+import com.tnt.ecommeracemarketplace.product.dto.ProductResponseDto;
 
 public interface ProductService {
 

@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.configuration;
+package com.tnt.ecommeracemarketplace.common.configuration;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;

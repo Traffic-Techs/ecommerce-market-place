@@ -4,8 +4,8 @@
 //
 //import com.tnt.ecommeracemarketplace.entity.Product;
 //import com.tnt.ecommeracemarketplace.entity.User;
-//import com.tnt.ecommeracemarketplace.repository.ProductRepository;
-//import com.tnt.ecommeracemarketplace.repository.UserRepository;
+//import com.tnt.ecommeracemarketplace.product.repository.repository.ProductRepository;
+//import com.tnt.ecommeracemarketplace.product.repository.repository.UserRepository;
 //import com.tnt.ecommeracemarketplace.service.ProductService;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
