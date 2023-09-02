@@ -46,9 +46,11 @@ public class ProductController {
    * @param keyword 검색어
    */
   @GetMapping("/products/details")
-  public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page,
+  public ResponseEntity<ProductListResponseDto> searchProducts(
+      @RequestParam(name = "page") int page,
       @RequestParam(name = "keyword") String keyword) {
     PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
-    return productService.selectProductList(keyword, pageDto);
+    ProductListResponseDto result = productService.selectProductList(keyword, pageDto);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }
