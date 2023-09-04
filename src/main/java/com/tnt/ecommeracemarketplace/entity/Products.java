@@ -55,4 +55,12 @@ public class Products {
     this.register_date = register_date;
     this.sale = sale;
   }
+
+  public void decrease(Long amount) {
+    if (this.amount - amount < 0) {
+      throw new RuntimeException("매진되었습니다.");
+    }
+
+    this.amount -= amount;
+  }
 }

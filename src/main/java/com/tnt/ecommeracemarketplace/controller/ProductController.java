@@ -1,13 +1,14 @@
 package com.tnt.ecommeracemarketplace.controller;
 
-import com.tnt.ecommeracemarketplace.dto.PageDto;
-import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
-import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.dto.*;
+import com.tnt.ecommeracemarketplace.service.OrderService;
 import com.tnt.ecommeracemarketplace.service.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     private final ProductServiceImpl productService;
+
+    private final OrderService orderService;
 
     /**
      * 제품 전체 조회 API
@@ -46,5 +49,24 @@ public class ProductController {
                                                  @RequestParam(name = "keyword") String keyword) {
         PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
         return productService.selectProductList(keyword, pageDto);
+    }
+
+    @PostMapping("/orders")
+    public ResponseEntity<ApiResponseDto> ordersSave(@RequestBody Map<String, Object> requestData) {
+
+        Map<String, Object> product = (Map<String, Object>) requestData.get("product");
+        int quantity = (int) requestData.get("quantity");
+
+        OrderRequestDto requestDto = new OrderRequestDto((int) product.get("id"),
+                (String) product.get("title"), quantity);
+
+        try {
+            orderService.saveOrders(requestDto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 }

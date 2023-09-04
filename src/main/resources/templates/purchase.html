@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/purchase.css">
+</head>
+<body>
+<header>
+    <div class="logo">
+        안녕하세요. 제품 구매 페이지를 한번 구현해봤는데요. 생각보다 쉽지 않습니다.
+    </div>
+</header>
+<div class="contentCheckout">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="checkout-items">
+                    <div class="list-checkout">
+                        <ul class="steps-checkout">
+                            <li class="steps active-check"><a href="#"> <span class="fa fa-truck"></span> 주문
+                                내역</a></li>
+                        </ul>
+                    </div>
+                    <br>
+                    <div class="contentShipping">
+                        <form id="form-shipping" class="" name="form-shipping" action="#">
+                            <fieldset>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <label class="control-label" for="title">제품</label>
+                                            <input id="title" name="title" class="form-control chkndo-input"
+                                                   th:value="${product.title}" type="text" readonly>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <label class="control-label" for="sale">할인</label>
+                                            <input id="sale" name="sale" class="form-control chkndo-input"
+                                                   th:value="${product.sale}" type="text" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <label class="control-label" for="cost">가격</label>
+                                            <input id="cost" name="cost" class="form-control chkndo-input"
+                                                   th:value="${product.cost}" type="text" readonly>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <label class="control-label" for="number">갯수</label>
+                                            <input id="number" name="number" class="form-control chkndo-input"
+                                                   th:value="${quantity}" type="text" readonly>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-12 col-md-12">
+                                            <label class="control-label" for="total" style="text-align: center">총액</label>
+                                            <input id="total" name="total" class="form-control chkndo-input"
+                                                   th:value="${quantity} * ${product.cost}" type="text"
+                                                   style="text-align: center" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block next-chk"
+                                                    onclick="purchaseOrder()">구매
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+    const product = [[${product}]];
+    const quantity = [[${quantity}]];
+</script>
+<script src="/js/purchase.js"></script>
+</body>
+</html>
