@@ -25,6 +25,7 @@ function purchaseOrder() {
                 alert("주문이 성공적으로 처리되었습니다.");
                 window.location.href = `/web/products/${product.id}`;
             } else if (result.statusCode === 400) {
+                alert(result.statusCode);
                 alert("매진 되었습니다.");
                 window.location.href = `/web/products/${product.id}`;
             }

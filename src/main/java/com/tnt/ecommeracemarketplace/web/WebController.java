@@ -55,5 +55,4 @@ public class WebController {
     model.addAttribute("quantity", cartData.get("quantity"));
     return "purchase";
   }
-
 }

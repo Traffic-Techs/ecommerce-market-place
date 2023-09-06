@@ -27,6 +27,8 @@ public class ProductServiceImpl implements ProductService {
                 () -> new NullPointerException("해당 제품이 존재하지 않습니다")
         );
 
+        System.out.println(productToFind.getTitle());
+
         return new ProductResponseDto(productToFind);
     }
 
