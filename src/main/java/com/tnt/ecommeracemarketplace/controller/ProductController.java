@@ -60,7 +60,8 @@ public class ProductController {
         Map<String, Object> product = (Map<String, Object>) requestData.get("product");
 
         Long productId = ((Integer) product.get("id")).longValue();
-        Long quantity = ((Integer) requestData.get("quantity")).longValue();
+//        Long quantity = ((Integer) requestData.get("quantity")).longValue();
+        Long quantity = 1L;
 
         OrderRequestDto requestDto = new OrderRequestDto(productId,
                 (String) product.get("title"), quantity);
