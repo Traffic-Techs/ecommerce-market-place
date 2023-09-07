@@ -77,25 +77,28 @@ public class ProductController {
         }
     }
 
-//    @PostMapping("/ordersPessimistic")
-//    public ResponseEntity<ApiResponseDto> ordersSavePessimistic(@RequestBody Map<String, Object> requestData) {
-//
+    @PostMapping("/ordersPessimistic")
+    public ResponseEntity<ApiResponseDto> ordersSavePessimistic(/*@RequestBody Map<String, Object> requestData*/) {
+
 //        Map<String, Object> product = (Map<String, Object>) requestData.get("product");
-//
+
 //        Long productId = ((Integer) product.get("id")).longValue();
 //        Long quantity = ((Integer) requestData.get("quantity")).longValue();
-//
+        Long productId = 1L;
+        Long quantity = 1L;
+
 //        OrderRequestDto requestDto = new OrderRequestDto(productId,
 //                (String) product.get("title"), quantity);
-//
-//        try {
+
+        try {
 //            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
 //            orderService.saveOrders(requestDto);
-//            return ResponseEntity.status(HttpStatus.ACCEPTED)
-//                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-//                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-//        }
-//    }
+            productService.buyPessimistic(productId, quantity);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
 }
