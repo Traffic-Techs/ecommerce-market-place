@@ -28,4 +28,18 @@ public interface ProductService {
      * @return 조회할 제품 리스트 정보
      */
     ProductListResponseDto selectProductList(String keyword, PageDto pageDto);
+
+    /**
+     * 제품 구매
+     * @param id 구매할 제품 아이디
+     * @param quantity 구매할 수량
+     */
+    void buyProduct(Long id, Long quantity);
+
+    /**
+     * 낙관적락 적용한 제품 구매
+     * @param id
+     * @param quantity
+     */
+    void buyPessimistic (Long id, Long quantity);
 }

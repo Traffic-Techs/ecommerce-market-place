@@ -56,10 +56,7 @@ public class Products {
     this.sale = sale;
   }
 
-  public void decrease(Long amount) {
-    if (this.amount - amount < 0) {
-      throw new RuntimeException("매진되었습니다.");
-    }
+  public void buy(Long amount) {
 
     this.amount -= amount;
   }

@@ -11,5 +11,5 @@ public interface OrderService {
      */
     void saveOrders(OrderRequestDto requestDto);
 
-    Integer findOrders(Long productId);
+    Long findOrders(Long productId);
 }

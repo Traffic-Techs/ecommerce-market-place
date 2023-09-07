@@ -24,37 +24,39 @@ public class OrderServiceImpl implements OrderService {
         List<Orders> ordersProducts = orderRepository.findAllByProductsId(
                 requestDto.getProductId());
 
-        Products product = productRepository.findOneById((long) requestDto.getProductId());
+        Products product = productRepository.findOneById(requestDto.getProductId());
 
         // 지금 받은 product를 order로 변환
         Orders order = new Orders();
-        order.setAmount((long) requestDto.getQuantity());
+        order.setAmount(requestDto.getQuantity());
         order.setOrder_date(new Date());
         order.setProducts(product);
+        order.setProduct_price(product.getCost());
         order.setTotal_price(product.getCost() * requestDto.getQuantity());
 
-        int sumOfAmount = 0;
+//        int sumOfAmount = 0;
+//
+//        if (ordersProducts != null) {
+//            for (Orders tempOrder : ordersProducts) {
+//                sumOfAmount += tempOrder.getAmount();
+//            }
+//
+//            if (sumOfAmount + requestDto.getQuantity() > product.getAmount()) {
+//                throw new IllegalArgumentException("제품 수량이 부족합니다.");
+//            } else {
+//                orderRepository.save(order);
+//            }
+//        } else {
+//            orderRepository.save(order);
+//        }
 
-        if (ordersProducts != null) {
-            for (Orders tempOrder : ordersProducts) {
-                sumOfAmount += tempOrder.getAmount();
-            }
-
-            if (sumOfAmount + requestDto.getQuantity() > product.getAmount()) {
-                throw new IllegalArgumentException("제품 수량이 부족합니다.");
-            } else {
-                orderRepository.save(order);
-            }
-        } else {
-            orderRepository.save(order);
-        }
+        orderRepository.save(order);
     }
 
     @Override
-    public Integer findOrders(Long productId) {
-        int product_id = Math.toIntExact(productId);
-        List<Orders> ordersProducts = orderRepository.findAllByProductsId(product_id);
-        int sum = 0;
+    public Long findOrders(Long productId) {
+        List<Orders> ordersProducts = orderRepository.findAllByProductsId(productId);
+        Long sum = 0L;
 
         if (ordersProducts != null) {
             for (Orders tempOrder : ordersProducts) {
