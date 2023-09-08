@@ -3,8 +3,6 @@ name: Spring Boot & Gradle & Docker & EC2 CI/CD
 on:
   push:
     branches: [ "master", "feature/docker" ]
-  pull_request:
-    branches: [ "master" ,"feature/docker"]
 
 permissions:
   contents: read
