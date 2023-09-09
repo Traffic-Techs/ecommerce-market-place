@@ -1,6 +1,7 @@
 package com.tnt.ecommeracemarketplace.controller;
 
 import com.tnt.ecommeracemarketplace.dto.*;
+import com.tnt.ecommeracemarketplace.facade.RedissonLockFacade;
 import com.tnt.ecommeracemarketplace.service.OrderService;
 import com.tnt.ecommeracemarketplace.service.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,8 @@ public class ProductController {
     private final ProductServiceImpl productService;
 
     private final OrderService orderService;
+
+    private final RedissonLockFacade redissonLockFacade;
 
     /**
      * 제품 전체 조회 API
@@ -55,13 +58,42 @@ public class ProductController {
     public ResponseEntity<ApiResponseDto> ordersSave(@RequestBody Map<String, Object> requestData) {
 
         Map<String, Object> product = (Map<String, Object>) requestData.get("product");
-        int quantity = (int) requestData.get("quantity");
 
-        OrderRequestDto requestDto = new OrderRequestDto((int) product.get("id"),
+        Long productId = ((Integer) product.get("id")).longValue();
+//        Long quantity = ((Integer) requestData.get("quantity")).longValue();
+        Long quantity = 1L;
+
+        OrderRequestDto requestDto = new OrderRequestDto(productId,
                 (String) product.get("title"), quantity);
 
         try {
-            orderService.saveOrders(requestDto);
+            redissonLockFacade.buy(requestDto.getProductId(), requestDto.getQuantity());
+//            orderService.saveOrders(requestDto);
+            return ResponseEntity.status(HttpStatus.ACCEPTED)
+                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+    }
+
+    @PostMapping("/ordersPessimistic")
+    public ResponseEntity<ApiResponseDto> ordersSavePessimistic(/*@RequestBody Map<String, Object> requestData*/) {
+
+//        Map<String, Object> product = (Map<String, Object>) requestData.get("product");
+
+//        Long productId = ((Integer) product.get("id")).longValue();
+//        Long quantity = ((Integer) requestData.get("quantity")).longValue();
+        Long productId = 1L;
+        Long quantity = 1L;
+
+//        OrderRequestDto requestDto = new OrderRequestDto(productId,
+//                (String) product.get("title"), quantity);
+
+        try {
+//            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
+//            orderService.saveOrders(requestDto);
+            productService.buyPessimistic(productId, quantity);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
         } catch (Exception e) {

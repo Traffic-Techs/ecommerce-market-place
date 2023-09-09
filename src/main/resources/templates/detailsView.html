@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <title>EMP</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/productDetail.css">
 </head>
 
@@ -38,11 +39,16 @@
           </div>
           <div class="col-md-12">
             <div class="price-tag">
-              <span th:text="${product.cost}" class="cost"></span>
+              <span th:text="${product.cost}" class="cost"></span>원
+            </div>
+            <div class="order-quantity">
+              <label for="quantity">수량:</label>
+              <select id="quantity" class="form-control"></select>
             </div>
             <div class="add-to-cart-button">
-              <button class="btn btn-success"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                ADD TO CART
+              <button class="btn btn-success" onclick="purchase()"><i class="fa fa-shopping-cart"
+                                                                       aria-hidden="true"></i>
+                결제
               </button>
             </div>
           </div>
@@ -55,6 +61,11 @@
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+  const product = [[${product}]];
+  const order = [[${order}]]
+</script>
+<script src="/js/detail.js"></script>
 </body>
 
 </html>

@@ -5,13 +5,13 @@ const orderAmount = `${order}`;
 function generateQuantityOptions() {
     const quantitySelect = document.getElementById("quantity");
 
-    if (productAmount - orderAmount == 0) {
+    if (productAmount == 0) {
         const option = document.createElement("option");
         option.value = 0;
         option.textContent = "매진";
         quantitySelect.appendChild(option);
     } else {
-        for (let i = productAmount - orderAmount; i >= 1; i--) {
+        for (let i = 5; i >= 1; i--) {
             const option = document.createElement("option");
             option.value = i;
             option.textContent = i + "개";
@@ -23,7 +23,7 @@ function generateQuantityOptions() {
 // 페이지 로드 시 수량 옵션을 생성합니다.
 window.onload = generateQuantityOptions;
 
-function addToCart() {
+function purchase() {
     const quantityString = document.getElementById("quantity").value;
     const quantity = parseInt(quantityString, 10); // 10진수로 변환
 
@@ -32,7 +32,7 @@ function addToCart() {
         quantity: quantity
     };
 
-    if (productAmount - orderAmount == 0) {
+    if (productAmount == 0) {
         alert("제품이 매진되었습니다.");
     } else {
         fetch('/addToCart', {

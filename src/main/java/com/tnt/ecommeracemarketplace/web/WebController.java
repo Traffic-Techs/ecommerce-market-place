@@ -29,9 +29,9 @@ public class WebController {
   @GetMapping("/web/products/{productId}")
   public String productDetailsWeb(@PathVariable Long productId, Model model) {
     ProductResponseDto product = productService.findProductDetails(productId);
-    Integer findOrders = orderService.findOrders(productId);
+//    Long findOrders = orderService.findOrders(productId);
     model.addAttribute("product", product);
-    model.addAttribute("order", findOrders);
+//    model.addAttribute("order", findOrders);
     return "detailsView";
   }
 
@@ -55,5 +55,4 @@ public class WebController {
     model.addAttribute("quantity", cartData.get("quantity"));
     return "purchase";
   }
-
 }
