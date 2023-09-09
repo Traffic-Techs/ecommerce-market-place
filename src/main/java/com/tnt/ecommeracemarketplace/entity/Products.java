@@ -57,6 +57,7 @@ public class Products {
   }
 
   public void buy(Long amount) {
+
     if (this.amount - amount < 0) {
       throw new RuntimeException("재고는 0개 미만이 될 수 없습니다.");
     }
