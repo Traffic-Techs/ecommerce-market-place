@@ -2,6 +2,7 @@ package com.tnt.ecommeracemarketplace.configuration;
 
 import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.elasticsearch.client.ClientConfiguration;
@@ -13,11 +14,15 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackageClasses = ProductEsRepository.class)
 public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
 
-  private static final String host = "emp.es.ap-northeast-2.aws.elastic-cloud.com:443";
-  private static final String username = "elastic";
-  private static final String password = "rGCzdigCfUD6vzoxDNjq6QJl";
+  @Value("${elastic.host}")
+  private String host;
 
+  @Value("${elastic.username}")
+  private String username;
 
+  @Value("${elastic.password}")
+  private String password;
+  
   @Bean
   @Override
   public RestHighLevelClient elasticsearchClient() {
