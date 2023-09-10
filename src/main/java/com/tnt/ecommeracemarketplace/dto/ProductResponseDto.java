@@ -10,7 +10,7 @@ public class ProductResponseDto {
   private Long id;
   private String title;
   private String images;
-  private String category;
+  private String description;
   private Long cost;
   private Long amount;
   private Boolean sale;
@@ -20,7 +20,7 @@ public class ProductResponseDto {
     this.id = product.getId();
     this.title = product.getTitle();
     this.images = product.getImages();
-    this.category = product.getCategory();
+    this.description = product.getDescription();
     this.cost = product.getCost();
     this.amount = product.getAmount();
     this.sale = product.getSale();

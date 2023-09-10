@@ -34,18 +34,18 @@ public class ProductServiceImpl implements ProductService {
   }
 
   // 키워드(Full Text) 검색
-  @Override
-  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
-    Pageable pageable = pageDto.toPageable();
-    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-    Page<Products> productPage = productRepository.searchByFullText(keyword, pageable);
-
-    List<ProductResponseDto> productList = productPage.getContent().stream()
-        .map(ProductResponseDto::new)
-        .collect(Collectors.toList());
-
-    return new ProductListResponseDto(productList);
-  }
+//  @Override
+//  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
+//    Pageable pageable = pageDto.toPageable();
+//    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+//    Page<Products> productPage = productRepository.searchByFullText(keyword, pageable);
+//
+//    List<ProductResponseDto> productList = productPage.getContent().stream()
+//        .map(ProductResponseDto::new)
+//        .collect(Collectors.toList());
+//
+//    return new ProductListResponseDto(productList);
+//  }
 
   @Override
   public ProductResponseDto findProductDetails(Long productId) {
@@ -55,4 +55,16 @@ public class ProductServiceImpl implements ProductService {
     return new ProductResponseDto(productToFind);
   }
 
+//  @Override
+//  public ProductListResponseDto selectFilteredProduct(Long minCost, Long maxCost, PageDto pageDto) {
+//    Pageable pageable = pageDto.toPageable();
+//    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+//    Page<Products> productPage = productRepository.findByCostBetween(minCost, maxCost, pageable);
+//
+//    List<ProductResponseDto> productList = productPage.getContent().stream()
+//        .map(ProductResponseDto::new)
+//        .collect(Collectors.toList());
+//
+//    return new ProductListResponseDto(productList);
+//  }
 }

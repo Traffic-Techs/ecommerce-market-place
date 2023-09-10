@@ -13,6 +13,9 @@ public interface ProductRepository extends JpaRepository<Products, Long> {
   Page<Products> findAllOrderByRegisterDateAtDesc(Pageable pageable);
 
   // 키워드 검색
-  @Query(value = "SELECT * FROM products WHERE MATCH(title) AGAINST(:keyword IN BOOLEAN MODE) ORDER BY register_date DESC", nativeQuery = true)
-  Page<Products> searchByFullText(String keyword, Pageable pageable);
+//  @Query(value = "SELECT * FROM products WHERE MATCH(title) AGAINST(:keyword IN BOOLEAN MODE) ORDER BY register_date DESC", nativeQuery = true)
+//  Page<Products> searchByFullText(String keyword, Pageable pageable);
+
+  // 가격대별 검색
+//  Page<Products> findByCostBetween(Long minCost, Long maxCost, Pageable pageable);
 }

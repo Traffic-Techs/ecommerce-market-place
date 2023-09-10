@@ -1,11 +1,11 @@
 package com.tnt.ecommeracemarketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class Products {
   private String images;
 
   @Column(nullable = false)
-  private String category;
+  private String description;
 
   @Column(nullable = false)
   private Long cost;
@@ -45,11 +45,11 @@ public class Products {
   private Boolean sale;
 
   @Builder
-  public Products(String title, String images, String category, Long cost, Long amount,
+  public Products(String title, String images, String description, Long cost, Long amount,
       Date register_date, Boolean sale) {
     this.title = title;
     this.images = images;
-    this.category = category;
+    this.description = description;
     this.cost = cost;
     this.amount = amount;
     this.register_date = register_date;

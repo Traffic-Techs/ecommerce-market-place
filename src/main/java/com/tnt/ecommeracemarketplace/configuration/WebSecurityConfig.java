@@ -14,22 +14,22 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf((csrf) -> csrf.disable());
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http.csrf((csrf) -> csrf.disable());
 
-        http.sessionManagement((sessionManagement) ->
-                sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
+    http.sessionManagement((sessionManagement) ->
+        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+    );
 
-        http.authorizeHttpRequests((authorizeHttpRequests) ->
-                authorizeHttpRequests
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers("/web/**").permitAll()
-                        .requestMatchers("/api/**").permitAll()
-                        .anyRequest().permitAll() // 그 외 모든 요청 인증처리
-        );
-        return http.build();
-    }
+    http.authorizeHttpRequests((authorizeHttpRequests) ->
+            authorizeHttpRequests
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+//                        .requestMatchers("/web/**").permitAll()
+//                        .requestMatchers("/api/**").permitAll()
+                .anyRequest().permitAll() // 그 외 모든 요청 인증처리
+    );
+    return http.build();
+  }
 
 }

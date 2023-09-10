@@ -45,12 +45,22 @@ public class ProductController {
    *
    * @param keyword 검색어
    */
-  @GetMapping("/products/details")
-  public ResponseEntity<ProductListResponseDto> searchProducts(
-      @RequestParam(name = "page") int page,
-      @RequestParam(name = "keyword") String keyword) {
-    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
-    ProductListResponseDto result = productService.selectProductList(keyword, pageDto);
-    return ResponseEntity.status(HttpStatus.OK).body(result);
-  }
+//  @GetMapping("/products/details")
+//  public ResponseEntity<ProductListResponseDto> searchProducts(
+//      @RequestParam(name = "page") int page,
+//      @RequestParam(name = "keyword") String keyword) {
+//    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
+//    ProductListResponseDto result = productService.selectProductList(keyword, pageDto);
+//    return ResponseEntity.status(HttpStatus.OK).body(result);
+//  }
+//
+//  @GetMapping("/products/filtered")
+//  public ResponseEntity<ProductListResponseDto> searchProductsFilteredByCost(
+//      @RequestParam(name = "page") int page,
+//      @RequestParam("minCost") Long minCost,
+//      @RequestParam("maxCost") Long maxCost) {
+//    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
+//    ProductListResponseDto result = productService.selectFilteredProduct(minCost, maxCost, pageDto);
+//    return ResponseEntity.status(HttpStatus.OK).body(result);
+//  }
 }
