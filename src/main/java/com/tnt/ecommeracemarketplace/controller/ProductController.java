@@ -128,8 +128,9 @@ public class ProductController {
 
         try {
 //            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
-            orderService.saveOrders(requestDto);
+
             productService.buyPessimistic(productId, quantity);
+            orderService.saveOrders(requestDto);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
         } catch (Exception e) {
