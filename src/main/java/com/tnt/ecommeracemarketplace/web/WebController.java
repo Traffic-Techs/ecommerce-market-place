@@ -1,8 +1,8 @@
 package com.tnt.ecommeracemarketplace.web;
 
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
-import com.tnt.ecommeracemarketplace.jwt.JwtUtil;
-import com.tnt.ecommeracemarketplace.repository.UserRepository;
+//import com.tnt.ecommeracemarketplace.jwt.JwtUtil;
+//import com.tnt.ecommeracemarketplace.repository.UserRepository;
 import com.tnt.ecommeracemarketplace.service.OrderService;
 import com.tnt.ecommeracemarketplace.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class WebController {
 
-  private final JwtUtil jwtUtil;
-  private final UserRepository userRepository;
+//  private final JwtUtil jwtUtil;
+//  private final UserRepository userRepository;
   private final ProductService productService;
   private final OrderService orderService;
 
@@ -30,14 +30,14 @@ public class WebController {
     return "index";
   }
 
-  @GetMapping("/web/sign")
-  public String signPage() {
-    System.out.println("=====Signup Page=====");
-    return "sign";
-  }
-
-  @GetMapping("/web/user/sign-out")
-  public String signoutPage() { return "sign-out"; }
+//  @GetMapping("/web/sign")
+//  public String signPage() {
+//    System.out.println("=====Signup Page=====");
+//    return "sign";
+//  }
+//
+//  @GetMapping("/web/user/sign-out")
+//  public String signoutPage() { return "sign-out"; }
 
   @GetMapping("/web/products/{productId}")
   public String productDetailsWeb(@PathVariable Long productId, Model model) {
