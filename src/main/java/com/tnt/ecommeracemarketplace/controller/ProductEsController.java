@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/person")
+@RequestMapping("/api/products")
 public class ProductEsController {
 
   private final ProductEsService productEsService;
 
-  @GetMapping("/filtered")
+  @GetMapping("/details")
   public ResponseEntity<ProductListResponseDto> searchProducts(
       @RequestParam(name = "page") int page,
       @RequestParam(name = "keyword") String keyword) {

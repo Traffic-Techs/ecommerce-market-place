@@ -3,7 +3,7 @@ package com.tnt.ecommeracemarketplace.service;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
-import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.entity.ProductEs;
 import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +22,7 @@ public class ProductEsService {
   public ProductListResponseDto findProducts(String keyword, PageDto pageDto) {
     Pageable pageable = pageDto.toPageable();
     pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-    Page<Products> productPage = productEsRepository.findByTitle(keyword, pageable);
+    Page<ProductEs> productPage = productEsRepository.findAllByTitle(keyword, pageable);
 
     List<ProductResponseDto> productList = productPage.getContent().stream()
         .map(ProductResponseDto::new)
