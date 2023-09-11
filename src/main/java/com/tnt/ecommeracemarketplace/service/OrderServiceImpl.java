@@ -21,8 +21,8 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void saveOrders(OrderRequestDto requestDto) {
         // 받은 product data의 id 보고 그 것들 전부 찾음
-        List<Orders> ordersProducts = orderRepository.findAllByProductsId(
-                requestDto.getProductId());
+//        List<Orders> ordersProducts = orderRepository.findAllByProductsId(
+//                requestDto.getProductId());
 
         Products product = productRepository.findOneById(requestDto.getProductId());
 
