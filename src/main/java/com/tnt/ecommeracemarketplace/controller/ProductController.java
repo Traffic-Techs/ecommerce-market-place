@@ -116,19 +116,19 @@ public class ProductController {
 //
 //        Long productId = ((Integer) product.get("id")).longValue();
 //        Long quantity = ((Integer) requestData.get("quantity")).longValue();
-        Long productId = 1L;
+        Long productId = 16L;
         Long quantity = 1L;
         
         Products products = productRepository.findById(productId).orElseThrow(
                 () -> new NullPointerException("해당 제품이 존재하지 않습니다")
         );
 
-//        OrderRequestDto requestDto = new OrderRequestDto(productId,
-//                products.getTitle(), quantity);
+        OrderRequestDto requestDto = new OrderRequestDto(productId,
+                products.getTitle(), quantity);
 
         try {
 //            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
-//            orderService.saveOrders(requestDto);
+            orderService.saveOrders(requestDto);
             productService.buyPessimistic(productId, quantity);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
