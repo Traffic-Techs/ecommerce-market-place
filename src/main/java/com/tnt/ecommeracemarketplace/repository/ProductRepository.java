@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Products, Long>, Produc
 
   Products findOneById(Long productId);
 
-//  @Lock(LockModeType.PESSIMISTIC_WRITE)
+  @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("select p from Products p where p.id = :id")
   Products findByIdWithPessimisticLock (Long id);
 
