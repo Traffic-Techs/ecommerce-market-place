@@ -18,4 +18,6 @@ public interface ProductRepository extends JpaRepository<Products, Long>, Produc
 
   // Spring Data 검색
   List<Products> findByTitleContainingIgnoreCase (String keyword);
+
+  Products findById(Long id, LockModeType lockModeType);
 }

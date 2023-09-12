@@ -8,6 +8,7 @@ import com.tnt.ecommeracemarketplace.entity.Products;
 import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductSearchCond;
+import jakarta.persistence.LockModeType;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -96,7 +97,9 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void buyPessimistic (Long id, Long quantity) {
         try {
-            Products products = productRepository.findByIdWithPessimisticLock(id);
+//            Products products = productRepository.findByIdWithPessimisticLock(id);
+
+            Products products = productRepository.findById(id, LockModeType.PESSIMISTIC_WRITE);
 
             if (products.getAmount() <= 0) {
                 throw new IllegalArgumentException("매진 되었습니다.");
