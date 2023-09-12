@@ -1,16 +1,14 @@
 package com.tnt.ecommeracemarketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.transaction.annotation.Transactional;
 
 @Entity
@@ -42,7 +40,8 @@ public class Products {
   private Boolean sale;
 
   @Builder
-  public Products(String title, String images, String description, Long cost, Long amount, Boolean sale) {
+  public Products(String title, String images, String description, Long cost, Long amount,
+      Boolean sale) {
     this.title = title;
     this.images = images;
     this.description = description;

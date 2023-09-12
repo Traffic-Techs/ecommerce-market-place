@@ -6,21 +6,23 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class NamedLockFacade {
-    private final NamedLockRepository namedLockRepository;
 
-    private final ProductServiceImpl productService;
+  private final NamedLockRepository namedLockRepository;
 
-    public NamedLockFacade(NamedLockRepository namedLockRepository, ProductServiceImpl productService) {
-        this.namedLockRepository = namedLockRepository;
-        this.productService = productService;
+  private final ProductServiceImpl productService;
+
+  public NamedLockFacade(NamedLockRepository namedLockRepository,
+      ProductServiceImpl productService) {
+    this.namedLockRepository = namedLockRepository;
+    this.productService = productService;
+  }
+
+  public void decrease(Long id, Long quantity) {
+    try {
+      namedLockRepository.getLock(id.toString());
+      productService.buyProduct(id, quantity);
+    } finally {
+      namedLockRepository.releaseLock(id.toString());
     }
-
-    public void decrease (Long id, Long quantity) {
-        try {
-            namedLockRepository.getLock(id.toString());
-            productService.buyProduct(id, quantity);
-        } finally {
-            namedLockRepository.releaseLock(id.toString());
-        }
-    }
+  }
 }

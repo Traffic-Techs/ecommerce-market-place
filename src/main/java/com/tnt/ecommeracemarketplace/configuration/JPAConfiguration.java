@@ -1,19 +1,11 @@
 package com.tnt.ecommeracemarketplace.configuration;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.context.annotation.Bean;
+import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
+@EnableJpaRepositories(basePackageClasses = ProductRepository.class)
 public class JPAConfiguration {
 
-  @PersistenceContext
-  private EntityManager entityManager;
-
-  @Bean
-  public JPAQueryFactory jpaQueryFactory() {
-    return new JPAQueryFactory(entityManager);
-  }
 }
