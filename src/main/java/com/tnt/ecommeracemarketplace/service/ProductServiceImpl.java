@@ -95,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
         // 이후 로직 있으면 더 추가
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void buyPessimistic (Long id, Long quantity) {
         Products products = productRepository.findByIdWithPessimisticLock(id);
 
@@ -113,7 +113,7 @@ public class ProductServiceImpl implements ProductService {
         createOrder(products, quantity);
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void createOrder(Products product, Long quantity) {
         Orders order = new Orders();
         order.setAmount(quantity);
