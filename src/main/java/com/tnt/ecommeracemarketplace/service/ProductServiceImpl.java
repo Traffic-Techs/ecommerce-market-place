@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -96,26 +95,30 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     public void buyPessimistic (Long id, Long quantity) {
-        Products products = productRepository.findByIdWithPessimisticLock(id);
+        try {
+            Products products = productRepository.findByIdWithPessimisticLock(id);
 
-        if (products.getAmount() <= 0) {
-            throw new IllegalArgumentException("매진 되었습니다.");
+            if (products.getAmount() <= 0) {
+                throw new IllegalArgumentException("매진 되었습니다.");
+            }
+            else if (products.getAmount() < quantity) {
+                throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
+            }
+
+            products.buy(quantity);
+
+            productRepository.save(products);
+
+            Orders order = new Orders();
+            order.setAmount(quantity);
+            order.setOrder_date(new Date());
+            order.setProducts(products);
+            order.setProduct_price(products.getCost());
+            order.setTotal_price(products.getCost() * quantity);
+
+            orderRepository.save(order);
+        } catch (Exception e) {
+            throw e;
         }
-        else if (products.getAmount() < quantity) {
-            throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
-        }
-
-        products.buy(quantity);
-
-        productRepository.save(products);
-
-        Orders order = new Orders();
-        order.setAmount(quantity);
-        order.setOrder_date(new Date());
-        order.setProducts(products);
-        order.setProduct_price(products.getCost());
-        order.setTotal_price(products.getCost() * quantity);
-
-        orderRepository.save(order);
     }
 }
