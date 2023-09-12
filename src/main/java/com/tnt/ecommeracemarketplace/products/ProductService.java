@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.service;
+package com.tnt.ecommeracemarketplace.products;
 
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;

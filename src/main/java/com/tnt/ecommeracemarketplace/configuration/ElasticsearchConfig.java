@@ -1,6 +1,6 @@
 package com.tnt.ecommeracemarketplace.configuration;
 
-import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
+import com.tnt.ecommeracemarketplace.productEs.ProductEsRepository;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class ElasticsearchConfig extends AbstractElasticsearchConfiguration {
 
   @Value("${elastic.password}")
   private String password;
-  
+
   @Bean
   @Override
   public RestHighLevelClient elasticsearchClient() {

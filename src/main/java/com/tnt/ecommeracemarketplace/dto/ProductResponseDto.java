@@ -1,8 +1,7 @@
 package com.tnt.ecommeracemarketplace.dto;
 
-import com.tnt.ecommeracemarketplace.entity.ProductEs;
-import com.tnt.ecommeracemarketplace.entity.Products;
-import java.util.Date;
+import com.tnt.ecommeracemarketplace.productEs.ProductEs;
+import com.tnt.ecommeracemarketplace.products.Products;
 import lombok.Getter;
 
 @Getter
@@ -15,7 +14,6 @@ public class ProductResponseDto {
   private Long cost;
   private Long amount;
   private Boolean sale;
-  private Date register_date;
 
   public ProductResponseDto(Products product) {
     this.id = product.getId();
@@ -25,7 +23,6 @@ public class ProductResponseDto {
     this.cost = product.getCost();
     this.amount = product.getAmount();
     this.sale = product.getSale();
-    this.register_date = product.getRegister_date();
   }
 
   public ProductResponseDto(ProductEs productEs) {
@@ -36,6 +33,5 @@ public class ProductResponseDto {
     this.cost = productEs.getCost();
     this.amount = productEs.getAmount();
     this.sale = productEs.getSale();
-    this.register_date = productEs.getRegister_date();
   }
 }

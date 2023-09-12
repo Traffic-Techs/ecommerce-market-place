@@ -1,6 +1,5 @@
-package com.tnt.ecommeracemarketplace.entity;
+package com.tnt.ecommeracemarketplace.productEs;
 
-import java.util.Date;
 import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +16,6 @@ public class ProductEs {
   private String title;
 
   private Long cost;
-
-  private Date register_date;
 
   private String images;
 

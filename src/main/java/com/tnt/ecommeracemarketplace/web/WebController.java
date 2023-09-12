@@ -1,7 +1,7 @@
 package com.tnt.ecommeracemarketplace.web;
 
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
-import com.tnt.ecommeracemarketplace.service.ProductService;
+import com.tnt.ecommeracemarketplace.products.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,5 @@
-package com.tnt.ecommeracemarketplace.entity;
+package com.tnt.ecommeracemarketplace.products;
 
-import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 @Entity
 @Getter
@@ -38,21 +36,16 @@ public class Products {
   private Long amount;
 
   @Column(nullable = false)
-  @CreatedDate
-  private Date register_date;
-
-  @Column(nullable = false)
   private Boolean sale;
 
   @Builder
   public Products(String title, String images, String description, Long cost, Long amount,
-      Date register_date, Boolean sale) {
+      Boolean sale) {
     this.title = title;
     this.images = images;
     this.description = description;
     this.cost = cost;
     this.amount = amount;
-    this.register_date = register_date;
     this.sale = sale;
   }
 }
