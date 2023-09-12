@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Getter
@@ -50,6 +51,7 @@ public class Products {
     this.sale = sale;
   }
 
+  @Transactional
   public void buy(Long amount) {
 
     if (this.amount - amount < 0) {
