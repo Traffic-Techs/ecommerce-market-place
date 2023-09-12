@@ -97,11 +97,13 @@ public class ProductServiceImpl implements ProductService {
         if (products.getAmount() <= 0) {
             throw new IllegalArgumentException("매진 되었습니다.");
         }
-        else if (products.getAmount() > 0 && products.getAmount() - quantity < 0) {
+        else if (products.getAmount() < quantity) {
             throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
         }
 
         products.buy(quantity);
+
+        productRepository.save(products);
 
         Orders order = new Orders();
         order.setAmount(quantity);
@@ -110,10 +112,6 @@ public class ProductServiceImpl implements ProductService {
         order.setProduct_price(products.getCost());
         order.setTotal_price(products.getCost() * quantity);
 
-        if (products.getAmount() > 0) {
-            orderRepository.save(order);
-        }
-
-        productRepository.save(products);
+        orderRepository.save(order);
     }
 }
