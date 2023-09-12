@@ -110,7 +110,9 @@ public class ProductServiceImpl implements ProductService {
         order.setProduct_price(products.getCost());
         order.setTotal_price(products.getCost() * quantity);
 
-        orderRepository.save(order);
+        if (products.getAmount() > 0) {
+            orderRepository.save(order);
+        }
 
         productRepository.save(products);
     }

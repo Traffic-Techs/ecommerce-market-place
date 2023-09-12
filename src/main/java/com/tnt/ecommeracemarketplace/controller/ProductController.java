@@ -116,7 +116,7 @@ public class ProductController {
 //
 //        Long productId = ((Integer) product.get("id")).longValue();
 //        Long quantity = ((Integer) requestData.get("quantity")).longValue();
-        Long productId = 24L;
+        Long productId = 10L;
         Long quantity = 1L;
         
         Products products = productRepository.findById(productId).orElseThrow(
