@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -90,7 +91,7 @@ public class ProductServiceImpl implements ProductService {
         // 이후 로직 있으면 더 추가
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void buyPessimistic (Long id, Long quantity) {
         Products products = productRepository.findByIdWithPessimisticLock(id);
 
