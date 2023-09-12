@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
@@ -91,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
         // 이후 로직 있으면 더 추가
     }
 
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Transactional
     public void buyPessimistic (Long id, Long quantity) {
         Products products = productRepository.findByIdWithPessimisticLock(id);
 
@@ -114,5 +118,9 @@ public class ProductServiceImpl implements ProductService {
         order.setTotal_price(products.getCost() * quantity);
 
         orderRepository.save(order);
+
+        // 로그 기록
+        logger.info("Buy request: Product ID={}, Quantity={}", id, quantity);
+        logger.info("Product amount after purchase: {}", products.getAmount());
     }
 }
