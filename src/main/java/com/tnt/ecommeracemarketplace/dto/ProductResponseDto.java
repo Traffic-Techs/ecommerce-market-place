@@ -13,7 +13,6 @@ public class ProductResponseDto {
     private Long cost;
     private Long amount;
     private Boolean sale;
-    private Date register_date;
 
     public ProductResponseDto (Products product) {
         this.id = product.getId();
@@ -23,6 +22,5 @@ public class ProductResponseDto {
         this.cost = product.getCost();
         this.amount = product.getAmount();
         this.sale = product.getSale();
-        this.register_date = product.getRegister_date();
     }
 }

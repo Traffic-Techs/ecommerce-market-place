@@ -38,21 +38,15 @@ public class Products {
   private Long amount;
 
   @Column(nullable = false)
-  @CreatedDate
-  private Date register_date;
-
-  @Column(nullable = false)
   private Boolean sale;
 
   @Builder
-  public Products(String title, String images, String description, Long cost, Long amount,
-      Date register_date, Boolean sale) {
+  public Products(String title, String images, String description, Long cost, Long amount, Boolean sale) {
     this.title = title;
     this.images = images;
     this.description = description;
     this.cost = cost;
     this.amount = amount;
-    this.register_date = register_date;
     this.sale = sale;
   }
 

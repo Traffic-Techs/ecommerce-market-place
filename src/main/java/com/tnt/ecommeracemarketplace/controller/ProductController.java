@@ -116,7 +116,7 @@ public class ProductController {
 //
 //        Long productId = ((Integer) product.get("id")).longValue();
 //        Long quantity = ((Integer) requestData.get("quantity")).longValue();
-        Long productId = 16L;
+        Long productId = 24L;
         Long quantity = 1L;
         
         Products products = productRepository.findById(productId).orElseThrow(
@@ -128,14 +128,15 @@ public class ProductController {
 
         try {
 //            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
-
             productService.buyPessimistic(productId, quantity);
-            orderService.saveOrders(requestDto);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
+
+//        orderService.saveOrders(requestDto);
+
     }
 }
