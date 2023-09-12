@@ -3,9 +3,12 @@ package com.tnt.ecommeracemarketplace.service;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.entity.Orders;
 import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductSearchCond;
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public ProductResponseDto findProductDetails(Long productId) {
@@ -90,7 +94,23 @@ public class ProductServiceImpl implements ProductService {
     public void buyPessimistic (Long id, Long quantity) {
         Products products = productRepository.findByIdWithPessimisticLock(id);
 
+        if (products.getAmount() <= 0) {
+            throw new IllegalArgumentException("매진 되었습니다.");
+        }
+        else if (products.getAmount() > 0 && products.getAmount() - quantity < 0) {
+            throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
+        }
+
         products.buy(quantity);
+
+        Orders order = new Orders();
+        order.setAmount(quantity);
+        order.setOrder_date(new Date());
+        order.setProducts(products);
+        order.setProduct_price(products.getCost());
+        order.setTotal_price(products.getCost() * quantity);
+
+        orderRepository.save(order);
 
         productRepository.save(products);
     }

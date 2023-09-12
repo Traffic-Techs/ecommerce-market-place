@@ -41,16 +41,17 @@ public class OrderServiceImpl implements OrderService {
 //                sumOfAmount += tempOrder.getAmount();
 //            }
 //
-//            if (sumOfAmount + requestDto.getQuantity() > product.getAmount()) {
-//                throw new IllegalArgumentException("제품 수량이 부족합니다.");
-//            } else {
-//                orderRepository.save(order);
+            if (product.getAmount() <=0) {
+                throw new IllegalArgumentException("제품 수량이 부족합니다.");
+            } else {
+                orderRepository.save(order);
+            }
 //            }
 //        } else {
 //            orderRepository.save(order);
 //        }
 
-        orderRepository.save(order);
+//        orderRepository.save(order);
     }
 
     @Override
