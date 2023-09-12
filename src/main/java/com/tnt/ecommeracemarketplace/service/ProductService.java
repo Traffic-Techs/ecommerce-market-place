@@ -41,5 +41,5 @@ public interface ProductService {
      * @param id
      * @param quantity
      */
-    void buyPessimistic (Long id, Long quantity);
+//    void buyPessimistic (Long id, Long quantity);
 }

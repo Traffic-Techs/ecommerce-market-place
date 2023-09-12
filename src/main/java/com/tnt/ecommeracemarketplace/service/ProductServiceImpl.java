@@ -105,36 +105,36 @@ public class ProductServiceImpl implements ProductService {
         orderRepository.saveAndFlush(order);
     }
 
-    @Transactional
-    public void buyPessimistic (Long id, Long quantity) {
-        try {
-//            Products products = productRepository.findByIdWithPessimisticLock(id);
-
-            Products products = productRepository.findById(id, LockModeType.PESSIMISTIC_WRITE);
-
-            if (products.getAmount() <= 0) {
-                throw new IllegalArgumentException("매진 되었습니다.");
-            }
-            else if (products.getAmount() < quantity) {
-                throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
-            }
-
-            products.buy(quantity);
-
-            productRepository.save(products);
-
-            Orders order = new Orders();
-            order.setAmount(quantity);
-            order.setOrder_date(new Date());
-            order.setProducts(products);
-            order.setProduct_price(products.getCost());
-            order.setTotal_price(products.getCost() * quantity);
-
-            orderRepository.save(order);
-        } catch (Exception e) {
-            throw e;
-        }
-    }
+//    @Transactional
+//    public void buyPessimistic (Long id, Long quantity) {
+//        try {
+////            Products products = productRepository.findByIdWithPessimisticLock(id);
+//
+//            Products products = productRepository.findById(id, LockModeType.PESSIMISTIC_WRITE);
+//
+//            if (products.getAmount() <= 0) {
+//                throw new IllegalArgumentException("매진 되었습니다.");
+//            }
+//            else if (products.getAmount() < quantity) {
+//                throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
+//            }
+//
+//            products.buy(quantity);
+//
+//            productRepository.save(products);
+//
+//            Orders order = new Orders();
+//            order.setAmount(quantity);
+//            order.setOrder_date(new Date());
+//            order.setProducts(products);
+//            order.setProduct_price(products.getCost());
+//            order.setTotal_price(products.getCost() * quantity);
+//
+//            orderRepository.save(order);
+//        } catch (Exception e) {
+//            throw e;
+//        }
+//    }
 
 
 
