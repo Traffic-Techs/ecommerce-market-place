@@ -2,6 +2,7 @@ package com.tnt.ecommeracemarketplace.controller;
 
 import com.tnt.ecommeracemarketplace.dto.*;
 import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.facade.NamedLockFacade;
 import com.tnt.ecommeracemarketplace.facade.RedissonLockFacade;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import com.tnt.ecommeracemarketplace.service.OrderService;
@@ -25,6 +26,8 @@ public class ProductController {
 //    private final RedissonLockFacade redissonLockFacade;
 
     private final ProductRepository productRepository;
+
+    private final NamedLockFacade namedLockFacade;
 
     /**
      * 제품 전체 조회 API
@@ -128,7 +131,7 @@ public class ProductController {
 
         try {
 //            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
-            productService.buyPessimistic(productId, quantity);
+            namedLockFacade.decrease(productId, quantity);
             return ResponseEntity.status(HttpStatus.ACCEPTED)
                     .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
         } catch (Exception e) {

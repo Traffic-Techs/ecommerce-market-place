@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void buyProduct(Long id, Long quantity) {
         // 유저 생기면 로그인 여부 확인
         Products product = productRepository.findById(id).orElseThrow(
@@ -92,6 +93,16 @@ public class ProductServiceImpl implements ProductService {
         product.buy(quantity);
         // order에 산 만큼 저장
         // 이후 로직 있으면 더 추가
+        productRepository.saveAndFlush(product);
+
+        Orders order = new Orders();
+        order.setAmount(quantity);
+        order.setOrder_date(new Date());
+        order.setProducts(product);
+        order.setProduct_price(product.getCost());
+        order.setTotal_price(product.getCost() * quantity);
+
+        orderRepository.saveAndFlush(order);
     }
 
     @Transactional
@@ -124,4 +135,8 @@ public class ProductServiceImpl implements ProductService {
             throw e;
         }
     }
+
+
+
+
 }
