@@ -22,10 +22,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
@@ -95,7 +94,7 @@ public class ProductServiceImpl implements ProductService {
         // 이후 로직 있으면 더 추가
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional
     public void buyPessimistic (Long id, Long quantity) {
         Products products = productRepository.findByIdWithPessimisticLock(id);
 
@@ -110,17 +109,12 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(products);
 
-        createOrder(products, quantity);
-    }
-
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void createOrder(Products product, Long quantity) {
         Orders order = new Orders();
         order.setAmount(quantity);
         order.setOrder_date(new Date());
-        order.setProducts(product);
-        order.setProduct_price(product.getCost());
-        order.setTotal_price(product.getCost() * quantity);
+        order.setProducts(products);
+        order.setProduct_price(products.getCost());
+        order.setTotal_price(products.getCost() * quantity);
 
         orderRepository.save(order);
     }
