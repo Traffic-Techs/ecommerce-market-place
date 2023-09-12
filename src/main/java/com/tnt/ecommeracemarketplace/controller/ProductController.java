@@ -1,8 +1,12 @@
-package com.tnt.ecommeracemarketplace.products;
+package com.tnt.ecommeracemarketplace.controller;
 
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.facade.NamedLockFacade;
+import com.tnt.ecommeracemarketplace.repository.ProductRepository;
+import com.tnt.ecommeracemarketplace.service.OrderService;
+import com.tnt.ecommeracemarketplace.service.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
   private final ProductServiceImpl productService;
+  private final OrderService orderService;
+
+//    private final RedissonLockFacade redissonLockFacade;
+
+  private final ProductRepository productRepository;
+
+  private final NamedLockFacade namedLockFacade;
 
   /**
    * 제품 전체 조회 API
@@ -38,28 +49,4 @@ public class ProductController {
   public ProductResponseDto productDetails(@PathVariable Long productId) {
     return productService.findProductDetails(productId);
   }
-
-  /**
-   * 제품 검색 API
-   *
-   * @param keyword 검색어
-   */
-//  @GetMapping("/products/details")
-//  public ResponseEntity<ProductListResponseDto> searchProducts(
-//      @RequestParam(name = "page") int page,
-//      @RequestParam(name = "keyword") String keyword) {
-//    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
-//    ProductListResponseDto result = productService.selectProductList(keyword, pageDto);
-//    return ResponseEntity.status(HttpStatus.OK).body(result);
-//  }
-//
-//  @GetMapping("/products/filtered")
-//  public ResponseEntity<ProductListResponseDto> searchProductsFilteredByCost(
-//      @RequestParam(name = "page") int page,
-//      @RequestParam("minCost") Long minCost,
-//      @RequestParam("maxCost") Long maxCost) {
-//    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
-//    ProductListResponseDto result = productService.selectFilteredProduct(minCost, maxCost, pageDto);
-//    return ResponseEntity.status(HttpStatus.OK).body(result);
-//  }
 }

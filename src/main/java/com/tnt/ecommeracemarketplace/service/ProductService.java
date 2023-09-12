@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.products;
+package com.tnt.ecommeracemarketplace.service;
 
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
@@ -21,7 +21,18 @@ public interface ProductService {
    */
   ProductResponseDto findProductDetails(Long productId);
 
-//  ProductListResponseDto selectProductList(String keyword, PageDto pageDto);
+  /**
+   * 제품 구매
+   *
+   * @param id       구매할 제품 아이디
+   * @param quantity 구매할 수량
+   */
+  void buyProduct(Long id, Long quantity);
 
-//  ProductListResponseDto selectFilteredProduct(Long minCost, Long maxCost, PageDto pageDto);
+  /**
+   * 낙관적락 적용한 제품 구매
+   * @param id
+   * @param quantity
+   */
+//    void buyPessimistic (Long id, Long quantity);
 }

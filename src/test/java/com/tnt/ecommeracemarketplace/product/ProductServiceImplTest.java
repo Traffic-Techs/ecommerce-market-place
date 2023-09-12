@@ -1,10 +1,10 @@
 //package com.tnt.ecommeracemarketplace.product;
 //
-//import com.tnt.ecommeracemarketplace.products.Products;
+//import com.tnt.ecommeracemarketplace.entity.Products;
 //import com.tnt.ecommeracemarketplace.entity.Users;
-//import com.tnt.ecommeracemarketplace.products.ProductRepository;
+//import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 //import com.tnt.ecommeracemarketplace.repository.UserRepository;
-//import com.tnt.ecommeracemarketplace.products.ProductService;
+//import com.tnt.ecommeracemarketplace.service.ProductService;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //import org.springframework.beans.factory.annotation.Autowired;

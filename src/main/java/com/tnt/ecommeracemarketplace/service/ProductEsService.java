@@ -1,8 +1,10 @@
-package com.tnt.ecommeracemarketplace.products;
+package com.tnt.ecommeracemarketplace.service;
 
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.entity.ProductEs;
+import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -11,31 +13,21 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService {
+@Service
+public class ProductEsService {
 
-  private final ProductRepository productRepository;
+  private final ProductEsRepository productEsRepository;
 
-  // 전체 조회
-  @Override
-  public ProductListResponseDto getProducts(PageDto pageDto) {
+  public ProductListResponseDto findProducts(String keyword, PageDto pageDto) {
     Pageable pageable = pageDto.toPageable();
     pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-    Page<Products> productPage = productRepository.findAll(pageable);
+    Page<ProductEs> productPage = productEsRepository.findAllByTitle(keyword, pageable);
 
     List<ProductResponseDto> productList = productPage.getContent().stream()
         .map(ProductResponseDto::new)
         .collect(Collectors.toList());
 
     return new ProductListResponseDto(productList);
-  }
-
-  @Override
-  public ProductResponseDto findProductDetails(Long productId) {
-    Products productToFind = productRepository.findById(productId).orElseThrow(
-        () -> new NullPointerException("해당 제품이 존재하지 않습니다")
-    );
-    return new ProductResponseDto(productToFind);
   }
 }

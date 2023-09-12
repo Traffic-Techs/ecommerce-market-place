@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.products;
+package com.tnt.ecommeracemarketplace.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Getter
@@ -47,5 +48,15 @@ public class Products {
     this.cost = cost;
     this.amount = amount;
     this.sale = sale;
+  }
+
+  @Transactional
+  public void buy(Long amount) {
+
+    if (this.amount - amount < 0) {
+      throw new RuntimeException("재고는 0개 미만이 될 수 없습니다.");
+    }
+
+    this.amount -= amount;
   }
 }

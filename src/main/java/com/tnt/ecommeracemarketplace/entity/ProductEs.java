@@ -1,4 +1,4 @@
-package com.tnt.ecommeracemarketplace.productEs;
+package com.tnt.ecommeracemarketplace.entity;
 
 import javax.persistence.Id;
 import lombok.Getter;

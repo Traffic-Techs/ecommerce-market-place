@@ -1,7 +1,8 @@
-package com.tnt.ecommeracemarketplace.productEs;
+package com.tnt.ecommeracemarketplace.controller;
 
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
+import com.tnt.ecommeracemarketplace.service.ProductEsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

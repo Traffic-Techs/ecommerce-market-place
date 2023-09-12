@@ -1,6 +1,6 @@
 package com.tnt.ecommeracemarketplace.configuration;
 
-import com.tnt.ecommeracemarketplace.productEs.ProductEsRepository;
+import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
