@@ -110,17 +110,18 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(products);
 
+        createOrder(products, quantity);
+    }
+
+    @Transactional
+    public void createOrder(Products product, Long quantity) {
         Orders order = new Orders();
         order.setAmount(quantity);
         order.setOrder_date(new Date());
-        order.setProducts(products);
-        order.setProduct_price(products.getCost());
-        order.setTotal_price(products.getCost() * quantity);
+        order.setProducts(product);
+        order.setProduct_price(product.getCost());
+        order.setTotal_price(product.getCost() * quantity);
 
         orderRepository.save(order);
-
-        // 로그 기록
-        logger.info("Buy request: Product ID={}, Quantity={}", id, quantity);
-        logger.info("Product amount after purchase: {}", products.getAmount());
     }
 }
