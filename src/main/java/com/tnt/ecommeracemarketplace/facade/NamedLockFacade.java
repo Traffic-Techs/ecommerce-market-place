@@ -16,11 +16,9 @@ public class NamedLockFacade {
     }
 
     public void decrease (Long id, Long quantity) {
-        try {
+
             namedLockRepository.getLock(id.toString());
             productService.buyProduct(id, quantity);
-        } finally {
-            namedLockRepository.releaseLock(id.toString());
-        }
+
     }
 }

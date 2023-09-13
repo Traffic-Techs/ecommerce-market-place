@@ -1,8 +1,10 @@
 package com.tnt.ecommeracemarketplace.service;
 
+import com.tnt.ecommeracemarketplace.dto.ApiResponseDto;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import org.springframework.http.ResponseEntity;
 
 public interface ProductService {
 
@@ -34,7 +36,7 @@ public interface ProductService {
      * @param id 구매할 제품 아이디
      * @param quantity 구매할 수량
      */
-    void buyProduct(Long id, Long quantity);
+    ResponseEntity<ApiResponseDto> buyProduct(Long id, Long quantity);
 
     /**
      * 낙관적락 적용한 제품 구매

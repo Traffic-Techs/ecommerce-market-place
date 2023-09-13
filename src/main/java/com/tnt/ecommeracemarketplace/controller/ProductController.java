@@ -23,11 +23,11 @@ public class ProductController {
 
     private final OrderService orderService;
 
-//    private final RedissonLockFacade redissonLockFacade;
+    private final RedissonLockFacade redissonLockFacade;
 
     private final ProductRepository productRepository;
 
-    private final NamedLockFacade namedLockFacade;
+//    private final NamedLockFacade namedLockFacade;
 
     /**
      * 제품 전체 조회 API
@@ -55,12 +55,11 @@ public class ProductController {
      * @param keyword 검색어
      */
     @GetMapping("/products/details")
-    public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page,
-                                                 @RequestParam(name = "keyword") String keyword) {
+    public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page, @RequestParam(name = "keyword") String keyword) {
         PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
         return productService.selectProductList(keyword, pageDto);
     }
-    
+
     // Redisson lock 진행해야 하는 코드인데...
     // RDS로 Mysql을 이미 구축해서 일단은 보류
 //    @PostMapping("/orders")
@@ -119,27 +118,14 @@ public class ProductController {
 //
 //        Long productId = ((Integer) product.get("id")).longValue();
 //        Long quantity = ((Integer) requestData.get("quantity")).longValue();
-        Long productId = 10L;
+        Long productId = 1L;
         Long quantity = 1L;
-        
-        Products products = productRepository.findById(productId).orElseThrow(
-                () -> new NullPointerException("해당 제품이 존재하지 않습니다")
-        );
 
-        OrderRequestDto requestDto = new OrderRequestDto(productId,
-                products.getTitle(), quantity);
+//        Products products = productRepository.findById(productId).orElseThrow(() -> new NullPointerException("해당 제품이 존재하지 않습니다"));
 
-        try {
-//            productService.buyPessimistic(requestDto.getProductId(), requestDto.getQuantity());
-            namedLockFacade.decrease(productId, quantity);
-            return ResponseEntity.status(HttpStatus.ACCEPTED)
-                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
+        productService.orderProduct(productId, quantity);
 
-//        orderService.saveOrders(requestDto);
-
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
     }
 }
