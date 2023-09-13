@@ -3,8 +3,10 @@ package com.tnt.ecommeracemarketplace.dto;
 import com.tnt.ecommeracemarketplace.entity.Products;
 import java.util.Date;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductResponseDto {
     private Long id;
     private String title;
@@ -13,7 +15,7 @@ public class ProductResponseDto {
     private Long cost;
     private Long amount;
     private Boolean sale;
-    private Date register_date;
+//    private Date register_date;
 
     public ProductResponseDto (Products product) {
         this.id = product.getId();
@@ -23,6 +25,6 @@ public class ProductResponseDto {
         this.cost = product.getCost();
         this.amount = product.getAmount();
         this.sale = product.getSale();
-        this.register_date = product.getRegister_date();
+//        this.register_date = product.getRegister_date();
     }
 }
