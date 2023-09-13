@@ -9,9 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableCaching
 @SpringBootApplication
 public class EcommeraceMarketPlaceApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(EcommeraceMarketPlaceApplication.class, args);
     }
-
 }
