@@ -37,9 +37,9 @@ public class Products {
   @Column(nullable = false)
   private Long amount;
 
-  @Column(nullable = false)
-  @CreatedDate
-  private Date register_date;
+//  @Column(nullable = false)
+//  @CreatedDate
+//  private Date register_date;
 
   @Column(nullable = false)
   private Boolean sale;
@@ -51,7 +51,7 @@ public class Products {
     this.description = description;
     this.cost = cost;
     this.amount = amount;
-    this.register_date = register_date;
+//    this.register_date = register_date;
     this.sale = true;
   }
 }
