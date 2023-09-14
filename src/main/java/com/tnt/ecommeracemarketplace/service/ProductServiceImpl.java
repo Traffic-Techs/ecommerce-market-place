@@ -1,29 +1,20 @@
 package com.tnt.ecommeracemarketplace.service;
 
-import com.tnt.ecommeracemarketplace.dto.ApiResponseDto;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
 import com.tnt.ecommeracemarketplace.entity.Orders;
 import com.tnt.ecommeracemarketplace.entity.Products;
-import com.tnt.ecommeracemarketplace.error.CustomException;
 import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductSearchCond;
-import jakarta.persistence.LockModeType;
 
 import java.util.Date;
 
 import lombok.RequiredArgsConstructor;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
