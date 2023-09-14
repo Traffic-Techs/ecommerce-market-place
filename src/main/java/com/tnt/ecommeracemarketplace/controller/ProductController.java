@@ -51,11 +51,11 @@ public class ProductController {
      *
      * @param keyword 검색어
      */
-    @GetMapping("/products/details")
-    public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page, @RequestParam(name = "keyword") String keyword) {
-        PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
-        return productService.selectProductList(keyword, pageDto);
-    }
+//    @GetMapping("/products/details")
+//    public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page, @RequestParam(name = "keyword") String keyword) {
+//        PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
+//        return productService.selectProductList(keyword, pageDto);
+//    }
 
     // Redisson lock 진행해야 하는 코드인데...
     // RDS로 Mysql을 이미 구축해서 일단은 보류
