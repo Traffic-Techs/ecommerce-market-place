@@ -1,5 +1,6 @@
 package com.tnt.ecommeracemarketplace.service;
 
+import com.tnt.ecommeracemarketplace.dto.ApiResponseDto;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
@@ -7,10 +8,13 @@ import com.tnt.ecommeracemarketplace.entity.Orders;
 import com.tnt.ecommeracemarketplace.entity.Products;
 import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +29,9 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
 
-  // 전체 조회
+  private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    // 전체 조회
   @Override
   public ProductListResponseDto getProducts(PageDto pageDto) {
     Pageable pageable = pageDto.toPageable();
@@ -51,64 +57,47 @@ public class ProductServiceImpl implements ProductService {
     return new ProductResponseDto(productToFind);
   }
 
-  @Override
-  @Transactional(propagation = Propagation.REQUIRES_NEW)
-  public void buyProduct(Long id, Long quantity) {
-    // 유저 생기면 로그인 여부 확인
-    Products product = productRepository.findById(id).orElseThrow(
-        () -> new NullPointerException("해당 제품이 존재하지 않습니다.")
-    );
+    // 상품 주문
+    @Override
+    @Transactional
+    public void orderProducts(Long id, Long quantity) {
 
-    if (product.getAmount() <= 0) {
-      throw new IllegalArgumentException("매진 되었습니다.");
-    } else if (product.getAmount() > 0 && product.getAmount() - quantity < 0) {
-      throw new IllegalArgumentException("해당 제품은 총" + product.getAmount() + "개 남아있습니다.");
+        if(quantity < 1) throw new IllegalArgumentException("재고 부족");
+
+//        Products productTest = productRepository.findById(id).orElseThrow(
+//                () -> new IllegalArgumentException("재고 부족")
+//        );
+
+        Products product = productModify(id, quantity);
+
+        // 주문 데이터 저장
+        Orders order = new Orders();
+        order.setAmount(quantity);
+        order.setProduct_price(product.getCost());
+        order.setProducts(product);
+        order.setOrder_date(new Date());
+        order.setTotal_price(product.getCost() * quantity);
+
+        orderRepository.save(order);
     }
 
-    product.buy(quantity);
-    // order에 산 만큼 저장
-    // 이후 로직 있으면 더 추가
-    productRepository.saveAndFlush(product);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Products productModify(Long id, Long quantity){
 
-    Orders order = new Orders();
-    order.setAmount(quantity);
-    order.setOrder_date(new Date());
-    order.setProducts(product);
-    order.setProduct_price(product.getCost());
-    order.setTotal_price(product.getCost() * quantity);
+        Products product = productRepository.findByIdWithPessimisticLock(id);
 
-    orderRepository.saveAndFlush(order);
-  }
+        logger.info("Current amount (visible to this thread): {}", product.getAmount());
 
-//    @Transactional
-//    public void buyPessimistic (Long id, Long quantity) {
-//        try {
-////            Products products = productRepository.findByIdWithPessimisticLock(id);
-//
-//            Products products = productRepository.findById(id, LockModeType.PESSIMISTIC_WRITE);
-//
-//            if (products.getAmount() <= 0) {
-//                throw new IllegalArgumentException("매진 되었습니다.");
-//            }
-//            else if (products.getAmount() < quantity) {
-//                throw new IllegalArgumentException("해당 제품은 총" + products.getAmount() + "개 남아있습니다.");
-//            }
-//
-//            products.buy(quantity);
-//
-//            productRepository.save(products);
-//
-//            Orders order = new Orders();
-//            order.setAmount(quantity);
-//            order.setOrder_date(new Date());
-//            order.setProducts(products);
-//            order.setProduct_price(products.getCost());
-//            order.setTotal_price(products.getCost() * quantity);
-//
-//            orderRepository.save(order);
-//        } catch (Exception e) {
-//            throw e;
-//        }
-//    }
+        // 재고 부족 예외처리
+        if(product.getAmount() < quantity) throw new IllegalArgumentException("재고 부족");
 
+        // 상품 재고 차감
+        product.buy(quantity);
+
+        productRepository.saveAndFlush(product);
+
+        logger.info("buyPessimistic completed successfully for id: {} and quantity: {}", id, quantity);
+
+        return product;
+    }
 }

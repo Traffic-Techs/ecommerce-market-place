@@ -1,6 +1,8 @@
 package com.tnt.ecommeracemarketplace.repository;
 
 import com.tnt.ecommeracemarketplace.entity.Products;
+import java.util.List;
+
 import javax.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,5 +19,8 @@ public interface ProductRepository extends JpaRepository<Products, Long> {
 
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("select p from Products p where p.id = :id")
-  Products findByIdWithPessimisticLock(Long id);
+  Products findByIdWithPessimisticLock (Long id);
+
+  // Spring Data 검색
+  List<Products> findByTitleContainingIgnoreCase (String keyword);
 }
