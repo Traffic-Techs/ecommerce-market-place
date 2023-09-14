@@ -27,7 +27,7 @@ public interface ProductService {
      * @param keyword 검색어
      * @return 조회할 제품 리스트 정보
      */
-    ProductListResponseDto selectProductList(String keyword, PageDto pageDto);
+//    ProductListResponseDto selectProductList(String keyword, PageDto pageDto);
 
     /**
      * 제품 구매

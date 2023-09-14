@@ -1,5 +1,6 @@
 package com.tnt.ecommeracemarketplace.service;
 
+import com.tnt.ecommeracemarketplace.dto.ApiResponseDto;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
@@ -7,10 +8,13 @@ import com.tnt.ecommeracemarketplace.entity.Orders;
 import com.tnt.ecommeracemarketplace.entity.Products;
 import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
+
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -25,7 +29,9 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final OrderRepository orderRepository;
 
-  // 전체 조회
+  private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    // 전체 조회
   @Override
   public ProductListResponseDto getProducts(PageDto pageDto) {
     Pageable pageable = pageDto.toPageable();
@@ -72,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         order.setOrder_date(new Date());
         order.setTotal_price(product.getCost() * quantity);
 
-        orderRepository.saveAndFlush(order);
+        orderRepository.save(order);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
