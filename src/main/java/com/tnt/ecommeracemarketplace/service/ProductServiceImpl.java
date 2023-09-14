@@ -88,8 +88,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // 상품 주문
+    @Override
     @Transactional
-    public void orderProduct(Long id, Long quantity) {
+    public void orderProducts(Long id, Long quantity) {
 
         if(quantity < 1) throw new IllegalArgumentException("재고 부족");
 
@@ -129,71 +130,4 @@ public class ProductServiceImpl implements ProductService {
 
         return product;
     }
-
-    @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = false)
-    public ResponseEntity<ApiResponseDto> buyProduct(Long id, Long quantity) {
-        // 유저 생기면 로그인 여부 확인
-        Products product = productRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 제품이 존재하지 않습니다.")
-        );
-
-        if (product.getAmount() <= 0) {
-            throw new IllegalArgumentException("매진 되었습니다.");
-        } else if (product.getAmount() > 0 && product.getAmount() - quantity < 0) {
-            throw new IllegalArgumentException("해당 제품은 총" + product.getAmount() + "개 남아있습니다.");
-        } else {
-            Orders order = new Orders();
-            order.setAmount(quantity);
-            order.setOrder_date(new Date());
-            order.setProducts(product);
-            order.setProduct_price(product.getCost());
-            order.setTotal_price(product.getCost() * quantity);
-
-            orderRepository.saveAndFlush(order);
-
-            product.buy(quantity);
-            // order에 산 만큼 저장
-            // 이후 로직 있으면 더 추가
-            productRepository.saveAndFlush(product);
-            return ResponseEntity.status(HttpStatus.ACCEPTED)
-                    .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
-        }
-    }
-
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ResponseEntity<ApiResponseDto> buyPessimistic(Long id, Long quantity) {
-        logger.info("buyPessimistic started for id: {} and quantity: {}", id, quantity);
-
-        try {
-            Products products = productRepository.findByIdWithPessimisticLock(id);
-//            Products products = productRepository.findById(id).orElseThrow(
-//                    () -> new NullPointerException("해당 제품이 존재하지 않습니다")
-//            );
-            logger.info("Current amount (visible to this thread): {}", products.getAmount());
-
-            // 현재 재고 확인
-            Long currentStock = products.getAmount();
-
-            if (currentStock >= quantity) {
-                products.buy(quantity);
-
-                productRepository.saveAndFlush(products);
-                logger.info("buyPessimistic completed successfully for id: {} and quantity: {}", id, quantity);
-
-                return ResponseEntity.status(HttpStatus.ACCEPTED)
-                        .body(new ApiResponseDto("주문 완료", HttpStatus.ACCEPTED.value()));
-            }
-            else return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponseDto("재고가 부족해여", HttpStatus.BAD_REQUEST.value()));
-
-
-        } catch (Exception e) {
-            logger.error("buyPessimistic failed with error: {}", e.getMessage());
-
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ApiResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
-        }
-    }
-
 }

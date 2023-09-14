@@ -36,12 +36,5 @@ public interface ProductService {
      * @param id 구매할 제품 아이디
      * @param quantity 구매할 수량
      */
-    ResponseEntity<ApiResponseDto> buyProduct(Long id, Long quantity);
-
-    /**
-     * 낙관적락 적용한 제품 구매
-     * @param id
-     * @param quantity
-     */
-//    void buyPessimistic (Long id, Long quantity);
+    void orderProducts(Long id, Long quantity);
 }
