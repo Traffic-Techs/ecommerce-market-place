@@ -94,12 +94,23 @@ public class ProductServiceImpl implements ProductService {
         logger.info("Current amount (visible to this thread): {}", product.getAmount());
 
         // 재고 부족 예외처리
-        if(product.getAmount() < quantity) throw new IllegalArgumentException("재고 부족");
+        if(product.getAmount() < quantity) {
+            logger.info("재고가 부족합니다. for id: {} and quantity: {}", id, quantity);
+            throw new IllegalArgumentException("재고 부족");
+        }
+
+        try {
+            product.buy(quantity);
+            productRepository.saveAndFlush(product);
+        } catch (Exception ex) {
+            logger.error("Pessimistic lock을 획득하지 못하고 종료되었습니다. id: {} and quantity: {}", id, quantity, ex);
+            throw ex;
+        }
 
         // 상품 재고 차감
-        product.buy(quantity);
-
-        productRepository.saveAndFlush(product);
+//        product.buy(quantity);
+//
+//        productRepository.saveAndFlush(product);
 
         logger.info("buyPessimistic completed successfully for id: {} and quantity: {}", id, quantity);
 
