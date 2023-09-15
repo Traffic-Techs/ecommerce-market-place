@@ -24,4 +24,5 @@ public class ProductEs {
   private Long amount;
 
   private Boolean sale;
+
 }

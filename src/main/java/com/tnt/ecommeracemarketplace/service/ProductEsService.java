@@ -8,10 +8,12 @@ import com.tnt.ecommeracemarketplace.repository.ProductEsRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -19,6 +21,8 @@ public class ProductEsService {
 
   private final ProductEsRepository productEsRepository;
 
+  @Transactional(readOnly = true)
+  @Cacheable(value = "product", key = "#keyword")
   public ProductListResponseDto findProducts(String keyword, PageDto pageDto) {
     Pageable pageable = pageDto.toPageable();
     pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
