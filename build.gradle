@@ -35,6 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.mysql:mysql-connector-j'
     annotationProcessor 'org.projectlombok:lombok'
@@ -42,7 +43,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     // Redisson
-    implementation 'org.redisson:redisson-spring-boot-starter:3.23.2'
+//    implementation 'org.redisson:redisson-spring-boot-starter:3.23.2'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
@@ -51,7 +52,6 @@ dependencies {
 //    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
 //    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 //    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
-}
 }
 
 tasks.named('test') {
