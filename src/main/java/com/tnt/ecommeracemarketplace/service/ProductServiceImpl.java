@@ -1,64 +1,108 @@
 package com.tnt.ecommeracemarketplace.service;
 
+import com.tnt.ecommeracemarketplace.dto.ApiResponseDto;
+import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.entity.Orders;
 import com.tnt.ecommeracemarketplace.entity.Products;
+import com.tnt.ecommeracemarketplace.repository.OrderRepository;
 import com.tnt.ecommeracemarketplace.repository.ProductRepository;
+
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
+  private final ProductRepository productRepository;
+  private final OrderRepository orderRepository;
 
-    @Transactional(readOnly = true)
-    @Cacheable(value = "product", key = "#productId")
+  private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
+
+    // 전체 조회
+  @Override
+  public ProductListResponseDto getProducts(PageDto pageDto) {
+    Pageable pageable = pageDto.toPageable();
+    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+    Page<Products> productPage = productRepository.findAll(pageable);
+
+    List<ProductResponseDto> productList = productPage.getContent().stream()
+        .map(ProductResponseDto::new)
+        .collect(Collectors.toList());
+
+    return new ProductListResponseDto(productList);
+  }
+
+  @Transactional(readOnly = true)
+  @Cacheable(value = "product", key = "#productId")
+  @Override
+  public ProductResponseDto findProductDetails(Long productId) {
+
+    Products productToFind = productRepository.findById(productId).orElseThrow(
+        () -> new NullPointerException("해당 제품이 존재하지 않습니다")
+    );
+
+    System.out.println(productToFind.getTitle());
+
+    return new ProductResponseDto(productToFind);
+  }
+
+    // 상품 주문
     @Override
-    public ProductResponseDto findProductDetails(Long productId) {
+    @Transactional
+    public void orderProducts(Long id, Long quantity) {
 
-        log.info("ID {}에 대한 캐시된 제품 검색", productId);
+        if(quantity < 1) throw new IllegalArgumentException("재고 부족");
 
-        Products productToFind = productRepository.findById(productId).orElseThrow(
-                () -> new NullPointerException("해당 제품이 존재하지 않습니다")
-        );
+//        Products productTest = productRepository.findById(id).orElseThrow(
+//                () -> new IllegalArgumentException("재고 부족")
+//        );
 
-        log.info("ID {}에 대한 데이터베이스에서 제품 검색", productId);
+        Products product = productModify(id, quantity);
 
-        return new ProductResponseDto(productToFind);
+        // 주문 데이터 저장
+        Orders order = new Orders();
+        order.setAmount(quantity);
+        order.setProduct_price(product.getCost());
+        order.setProducts(product);
+        order.setOrder_date(new Date());
+        order.setTotal_price(product.getCost() * quantity);
+
+        orderRepository.save(order);
     }
 
-    @Override
-    public ProductListResponseDto getProducts() {
-      List<ProductResponseDto> productList = productRepository.findAll().stream()
-          .map(ProductResponseDto::new)
-          .collect(Collectors.toList());
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public Products productModify(Long id, Long quantity){
 
-      return new ProductListResponseDto(productList);
+        Products product = productRepository.findByIdWithPessimisticLock(id);
+
+        logger.info("Current amount (visible to this thread): {}", product.getAmount());
+
+        // 재고 부족 예외처리
+        if(product.getAmount() < quantity) throw new IllegalArgumentException("재고 부족");
+
+        // 상품 재고 차감
+        product.buy(quantity);
+
+        productRepository.saveAndFlush(product);
+
+        logger.info("buyPessimistic completed successfully for id: {} and quantity: {}", id, quantity);
+
+        return product;
     }
-
-    // Spring Data 검색
-    @Override
-    public ProductListResponseDto selectProductList(String keyword) {
-      List<ProductResponseDto> productList = productRepository.findByTitleContainingIgnoreCase(keyword).stream()
-          .map(ProductResponseDto::new).collect(Collectors.toList());
-      return new ProductListResponseDto(productList);
-    }
-
-    // JPAQueryFactory 검색
-//    @Override
-//    public ProductListResponseDto selectProductList(String keyword) {
-//      var cond = ProductSearchCond.builder().keyword(keyword).build();
-//      List<ProductResponseDto> productList = productRepository.search(cond).stream()
-//          .map(ProductResponseDto::new).collect(Collectors.toList());
-//      return new ProductListResponseDto(productList);
-//    }
-
 }

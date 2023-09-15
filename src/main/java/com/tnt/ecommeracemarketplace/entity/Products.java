@@ -1,16 +1,15 @@
 package com.tnt.ecommeracemarketplace.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.util.Date;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
+import org.springframework.transaction.annotation.Transactional;
 
 @Entity
 @Getter
@@ -37,21 +36,27 @@ public class Products {
   @Column(nullable = false)
   private Long amount;
 
-//  @Column(nullable = false)
-//  @CreatedDate
-//  private Date register_date;
-
   @Column(nullable = false)
   private Boolean sale;
 
   @Builder
-  public Products(String title, String images, String description, Long cost, Long amount, Date register_date, Boolean sale) {
+  public Products(String title, String images, String description, Long cost, Long amount,
+      Boolean sale) {
     this.title = title;
     this.images = images;
     this.description = description;
     this.cost = cost;
     this.amount = amount;
-//    this.register_date = register_date;
-    this.sale = true;
+    this.sale = sale;
+  }
+
+  @Transactional
+  public void buy(Long amount) {
+
+    if (this.amount - amount < 0) {
+      throw new RuntimeException("재고는 0개 미만이 될 수 없습니다.");
+    }
+
+    this.amount -= amount;
   }
 }
