@@ -3,10 +3,11 @@ package com.tnt.ecommeracemarketplace.dto;
 import com.tnt.ecommeracemarketplace.entity.ProductEs;
 import com.tnt.ecommeracemarketplace.entity.Products;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class ProductResponseDto {
-
   private Long id;
   private String title;
   private String images;

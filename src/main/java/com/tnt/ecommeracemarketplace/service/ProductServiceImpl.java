@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
@@ -45,6 +48,8 @@ public class ProductServiceImpl implements ProductService {
     return new ProductListResponseDto(productList);
   }
 
+  @Transactional(readOnly = true)
+  @Cacheable(value = "product", key = "#productId")
   @Override
   public ProductResponseDto findProductDetails(Long productId) {
 
