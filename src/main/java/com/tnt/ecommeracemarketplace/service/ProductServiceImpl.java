@@ -74,23 +74,10 @@ public class ProductServiceImpl implements ProductService {
 
    // 키워드(LIKE + 와일드카드) 검색
     // 그런 걸로
-  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
-    Pageable pageable = pageDto.toPageable();
-    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-    Page<Products> productPage = productRepository.searchByLike(keyword, pageable);
-
-    List<ProductResponseDto> productList = productPage.getContent().stream()
-        .map(ProductResponseDto::new)
-        .collect(Collectors.toList());
-
-    return new ProductListResponseDto(productList);
-  }
-
-  // 키워드(Full Text) 검색
 //  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
 //    Pageable pageable = pageDto.toPageable();
 //    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-//    Page<Products> productPage = productRepository.searchByFullText(keyword, pageable);
+//    Page<Products> productPage = productRepository.searchByLike(keyword, pageable);
 //
 //    List<ProductResponseDto> productList = productPage.getContent().stream()
 //        .map(ProductResponseDto::new)
@@ -98,6 +85,19 @@ public class ProductServiceImpl implements ProductService {
 //
 //    return new ProductListResponseDto(productList);
 //  }
+
+  // 키워드(Full Text) 검색
+  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
+    Pageable pageable = pageDto.toPageable();
+    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+    Page<Products> productPage = productRepository.searchByFullText(keyword, pageable);
+
+    List<ProductResponseDto> productList = productPage.getContent().stream()
+        .map(ProductResponseDto::new)
+        .collect(Collectors.toList());
+
+    return new ProductListResponseDto(productList);
+  }
 
   // 상품 주문
   @Override
