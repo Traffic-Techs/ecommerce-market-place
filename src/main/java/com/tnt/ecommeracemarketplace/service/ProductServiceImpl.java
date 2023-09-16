@@ -103,9 +103,7 @@ public class ProductServiceImpl implements ProductService {
   @Transactional
   public void orderProducts(Long id, Long quantity) {
 
-    if (quantity < 1) {
-      throw new IllegalArgumentException("재고 부족");
-    }
+        if(quantity < 1) throw new IllegalArgumentException("재고 부족");
 
 //        Products productTest = productRepository.findById(id).orElseThrow(
 //                () -> new IllegalArgumentException("재고 부족")
@@ -131,15 +129,24 @@ public class ProductServiceImpl implements ProductService {
 
     logger.info("Current amount (visible to this thread): {}", product.getAmount());
 
-    // 재고 부족 예외처리
-    if (product.getAmount() < quantity) {
-      throw new IllegalArgumentException("재고 부족");
-    }
+        // 재고 부족 예외처리
+        if(product.getAmount() < quantity) {
+            logger.info("재고가 부족합니다. for id: {} and quantity: {}", id, quantity);
+            throw new IllegalArgumentException("재고 부족");
+        }
 
-    // 상품 재고 차감
-    product.buy(quantity);
+        try {
+            product.buy(quantity);
+            productRepository.saveAndFlush(product);
+        } catch (Exception ex) {
+            logger.error("Pessimistic lock을 획득하지 못하고 종료되었습니다. id: {} and quantity: {}", id, quantity, ex);
+            throw ex;
+        }
 
-    productRepository.saveAndFlush(product);
+        // 상품 재고 차감
+//        product.buy(quantity);
+//
+//        productRepository.saveAndFlush(product);
 
     logger.info("buyPessimistic completed successfully for id: {} and quantity: {}", id, quantity);
 
