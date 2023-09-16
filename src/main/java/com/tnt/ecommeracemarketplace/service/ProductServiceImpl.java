@@ -60,23 +60,10 @@ public class ProductServiceImpl implements ProductService {
     return new ProductResponseDto(productToFind);
   }
 
-  public ProductListResponseDto findProducts(String keyword, PageDto pageDto) {
-    Pageable pageable = pageDto.toPageable();
-    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-    Page<Products> productPage = productRepository.findAllByTitle(keyword, pageable);
-
-    List<ProductResponseDto> productList = productPage.getContent().stream()
-        .map(ProductResponseDto::new)
-        .collect(Collectors.toList());
-
-    return new ProductListResponseDto(productList);
-  }
-
-  // 키워드(LIKE + 와일드카드) 검색
-//  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
+//  public ProductListResponseDto findProducts(String keyword, PageDto pageDto) {
 //    Pageable pageable = pageDto.toPageable();
 //    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
-//    Page<Products> productPage = productRepository.searchByLike(keyword, pageable);
+//    Page<Products> productPage = productRepository.findAllByTitle(keyword, pageable);
 //
 //    List<ProductResponseDto> productList = productPage.getContent().stream()
 //        .map(ProductResponseDto::new)
@@ -84,6 +71,19 @@ public class ProductServiceImpl implements ProductService {
 //
 //    return new ProductListResponseDto(productList);
 //  }
+
+   // 키워드(LIKE + 와일드카드) 검색
+  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {
+    Pageable pageable = pageDto.toPageable();
+    pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize());
+    Page<Products> productPage = productRepository.searchByLike(keyword, pageable);
+
+    List<ProductResponseDto> productList = productPage.getContent().stream()
+        .map(ProductResponseDto::new)
+        .collect(Collectors.toList());
+
+    return new ProductListResponseDto(productList);
+  }
 
   // 키워드(Full Text) 검색
 //  public ProductListResponseDto selectProductList(String keyword, PageDto pageDto) {

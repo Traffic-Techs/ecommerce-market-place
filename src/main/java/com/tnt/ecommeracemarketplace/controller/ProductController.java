@@ -60,7 +60,7 @@ public class ProductController {
     @GetMapping("/products/details")
     public ProductListResponseDto searchProducts(@RequestParam(name = "page") int page, @RequestParam(name = "keyword") String keyword) {
         PageDto pageDto = PageDto.builder().currentPage(page).build();
-        return productService.findProducts(keyword, pageDto);
+        return productService.selectProductList(keyword, pageDto);
     }
 
   // Redisson lock 진행해야 하는 코드인데...
