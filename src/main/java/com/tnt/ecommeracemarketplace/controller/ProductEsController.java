@@ -20,9 +20,9 @@ public class ProductEsController {
 
   @GetMapping("/details")
   public ResponseEntity<ProductListResponseDto> searchProducts(
-      @RequestParam(name = "page") int page,
+      @RequestParam(name = "page", required = false) Integer page,
       @RequestParam(name = "keyword") String keyword) {
-    PageDto pageDto = PageDto.builder().currentPage(page - 1).build();
+    PageDto pageDto = PageDto.builder().currentPage(page).build();
     ProductListResponseDto result = productEsService.findProducts(keyword, pageDto);
     return ResponseEntity.status(HttpStatus.OK).body(result);
   }
