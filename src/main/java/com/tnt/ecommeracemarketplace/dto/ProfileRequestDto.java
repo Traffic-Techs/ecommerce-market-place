@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SignoutRequestDto {
-    private String password;
+public class ProfileRequestDto {
+    private String nickname;
+    private String address;
 }
