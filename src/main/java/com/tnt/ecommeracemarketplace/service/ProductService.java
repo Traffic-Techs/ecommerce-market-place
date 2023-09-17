@@ -3,6 +3,8 @@ package com.tnt.ecommeracemarketplace.service;
 import com.tnt.ecommeracemarketplace.dto.PageDto;
 import com.tnt.ecommeracemarketplace.dto.ProductListResponseDto;
 import com.tnt.ecommeracemarketplace.dto.ProductResponseDto;
+import com.tnt.ecommeracemarketplace.entity.Users;
+import com.tnt.ecommeracemarketplace.security.UserDetailsImpl;
 
 public interface ProductService {
 
@@ -34,5 +36,5 @@ public interface ProductService {
      * @param id 구매할 제품 아이디
      * @param quantity 구매할 수량
      */
-    void orderProducts(Long id, Long quantity);
+    void orderProducts(Long id, Long quantity, Users user);
 }
