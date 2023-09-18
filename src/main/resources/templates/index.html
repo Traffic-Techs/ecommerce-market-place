@@ -100,8 +100,7 @@
                 data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
                 aria-controls="offcanvasRight"></button>
         <button class="signup-button" onclick="location.href='/web/sign'">로그인</button>
-        <button class="signup-button" onclick="location.href='/web/mypage'">마이EMP</button>
-<!--        <button class="login-button" onclick="location.href='/web/login'">로그인</button>-->
+        <button class="login-button" onclick="logout()">로그아웃</button>
     </div>
 </div>
 <header>
@@ -246,7 +245,39 @@
     // 페이지 로드 이벤트 핸들러
     window.onload = async function () {
         await fetchProducts(currentPage);
+        updateLoginStatus();
     };
+
+    function getCookieValueByName(name) {
+        var cookie = document.cookie;
+        var cookiePairs = cookie.split(';');
+
+        for (var i = 0; i < cookiePairs.length; i++) {
+            var pair = cookiePairs[i].trim();
+            if (pair.startsWith(name + '=')) {
+                return pair.substring(name.length + 1);
+            }
+        }
+
+        return null;
+    }
+
+    function isLoggedIn() {
+        var jwtCookie = getCookieValueByName('Authorization');
+
+        return !!jwtCookie; // JWT 쿠키가 존재하면 true, 그렇지 않으면 false 반환
+    }
+
+    function updateLoginStatus() {
+        if (isLoggedIn()) {
+            // JWT 값을 추출하여 로그인 상태로 인식합니다.
+            document.querySelector('.signup-button').style.display = 'none';
+
+        } else {
+            // JWT 값이 없으면 비로그인 상태로 인식합니다.
+            document.querySelector('.signup-button').style.display = 'inline-block';
+        }
+    }
 </script>
 
 </body>
