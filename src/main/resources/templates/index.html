@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
+          rel="stylesheet">
+    <title>EMP</title>
+    <style>
+
+        h1 {
+            font-family: 'Freedom45', sans-serif;
+            font-size: 140px;
+            margin-left: 30px;
+            margin-right: 50px;
+        }
+
+        .login-button, .signup-button {
+            font-family: 'BlackHansSnas', sans-serif;
+        }
+
+        h3 {
+            font-family: 'Freedom45', sans-serif;
+        }
+
+        p {
+            font-family: 'Freedom45', sans-serif;
+            font-size: 60px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: calc(25% - 20px);
+            box-sizing: border-box;
+            text-align: center;
+            background-color: #fff;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 60%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            border: none;
+            background-color: inherit;
+            padding: 8px 12px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="d-flex justify-content-between" style="display: flex; align-items: center;">
+    <h3 class="h3 m-3">TNT</h3>
+    <div class="buttons m-3">
+        <button class="fa-solid fa-square-arrow-up-right fs-3 user-button" type="button"
+                data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+                aria-controls="offcanvasRight"></button>
+        <button class="signup-button" onclick="location.href='/web/sign'">로그인</button>
+        <button class="page-button" onclick="location.href='/web/mypage'">마이페이지</button>
+    </div>
+</div>
+<header>
+    <div class="title-container" style="display: flex; align-items: center;">
+        <h1 id="emp-link" style="cursor: pointer;">"EMP"</h1>
+        <p>Electronics Market Place</p>
+    </div>
+</header>
+<div class="container d-flex flex-column align-items-center">
+    <div class="input-group mb-3 search-container mt-3">
+        <input type="text" class="form-control" id="search-input" placeholder="Search...">
+        <button class="btn btn-primary" type="button" onclick="searchProducts()">Search</button>
+    </div>
+</div>
+<div class="products-container">
+    <div id="products-container"></div>
+</div>
+<div className="page-container">
+    <div className="row">
+        <div className="col-md-6 offset-md-3">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center" id="pagination">
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const empLink = document.getElementById("emp-link");
+        empLink.addEventListener("click", function () {
+            window.location.href = "/web"; // 클릭하면 /web으로 이동
+        });
+    });
+    let currentPage = 1;
+
+    function calculatePageRange(totalPages, currentPage) {
+        const visiblePages = 10;
+        const halfVisible = Math.floor(visiblePages / 2);
+
+        let startPage = Math.max(currentPage - halfVisible, 1);
+        let endPage = Math.min(currentPage + halfVisible, totalPages);
+
+        if (endPage - startPage + 1 < visiblePages) {
+            if (currentPage <= halfVisible) {
+                endPage = Math.min(startPage + visiblePages - 1, totalPages);
+            } else {
+                startPage = Math.max(endPage - visiblePages + 1, 1);
+            }
+        }
+
+        return {startPage, endPage};
+    }
+
+    // Function to update pagination buttons
+    function updatePagination(currentPage, totalPages) {
+        const pagination = document.getElementById('pagination');
+        pagination.innerHTML = '';
+
+        const {startPage, endPage} = calculatePageRange(totalPages, currentPage);
+
+        const prevPageButton = document.createElement('li');
+        prevPageButton.className = 'page-item';
+        prevPageButton.innerHTML = `
+                <a class="page-link" href="#" aria-label="Previous" onclick="changePage(${currentPage - 1});">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            `;
+        pagination.appendChild(prevPageButton);
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageButton = document.createElement('li');
+            pageButton.className = 'page-item';
+            pageButton.innerHTML = `
+                    <a class="page-link" href="#" onclick="changePage(${i});">${i}</a>
+                `;
+            if (i + 1 === currentPage) {
+                pageButton.classList.add('active');
+            }
+            pagination.appendChild(pageButton);
+        }
+
+        const nextPageButton = document.createElement('li');
+        nextPageButton.className = 'page-item';
+        nextPageButton.innerHTML = `
+                <a class="page-link" href="#" aria-label="Next" onclick="changePage(${currentPage + 1});">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            `;
+        pagination.appendChild(nextPageButton);
+    }
+
+    async function fetchProducts(page, searchInput) {
+        try {
+            let apiUrl;
+
+            if (searchInput) {
+                apiUrl = `/api/products/details?page=${page + 1}&keyword=${searchInput}`;
+            } else {
+                apiUrl = `/api/products?page=${page + 1}`;
+            }
+
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            productList = data.productList;
+            totalPages = data.totalPages;
+            currentPage = page;
+
+            updatePagination(currentPage, totalPages);
+            displayProducts(productList);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+        }
+    }
+
+    function displayProducts(products) {
+        const productsContainer = document.getElementById('products-container');
+        productsContainer.innerHTML = ''; // Clear the container
+
+        if (products.length === 0) {
+            productsContainer.innerHTML = '<p>No products found.</p>';
+        } else {
+            products.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+
+                const productLink = document.createElement('a');
+                productLink.href = `/web/products/${product.id}`;
+                console.log(product.id);
+
+                productLink.innerHTML = `
+                <img src="${product.images}" alt="Product Image">
+                <h3>${product.title}</h3>
+                <p>${product.cost}원</p>
+            `;
+
+                productDiv.appendChild(productLink);
+                productsContainer.appendChild(productDiv);
+            });
+        }
+    }
+
+    function changePage(newPage) {
+        fetchProducts(newPage);
+    }
+
+    function searchProducts() {
+        const searchInput = document.getElementById('search-input').value;
+        currentPage = 1;
+        fetchProducts(currentPage, searchInput);
+
+    }
+
+
+    // 페이지 로드 이벤트 핸들러
+    window.onload = async function () {
+        await fetchProducts(currentPage);
+        updateLoginStatus();
+    };
+
+    function getCookieValueByName(name) {
+        var cookie = document.cookie;
+        var cookiePairs = cookie.split(';');
+
+        for (var i = 0; i < cookiePairs.length; i++) {
+            var pair = cookiePairs[i].trim();
+            if (pair.startsWith(name + '=')) {
+                return pair.substring(name.length + 1);
+            }
+        }
+
+        return null;
+    }
+
+    function isLoggedIn() {
+        var jwtCookie = getCookieValueByName('Authorization');
+
+        return !!jwtCookie; // JWT 쿠키가 존재하면 true, 그렇지 않으면 false 반환
+    }
+
+    function updateLoginStatus() {
+        if (isLoggedIn()) {
+            // JWT 값을 추출하여 로그인 상태로 인식합니다.
+            document.querySelector('.page-button').style.display = 'inline';
+            document.querySelector('.signup-button').style.display = 'none';
+
+        } else {
+            // JWT 값이 없으면 비로그인 상태로 인식합니다.
+            document.querySelector('.page-button').style.display = 'none';
+            document.querySelector('.signup-button').style.display = 'inline';
+        }
+    }
+</script>
+
+</body>
+</html>

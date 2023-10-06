@@ -1,0 +1,108 @@
+body {
+  background-color: #FEE6C8;
+  font-family: 'Architects Daughter', cursive;
+  color: #2D3436;
+}
+
+div.container-card {
+  background-color: #EEEDF0;
+  border-radius: 0.2em;
+  overflow: hidden;
+}
+
+div.container .row .col-md-6 img {
+  width: 100%;
+}
+
+.lenovo-brand {
+  background-color: #E22426;
+  color: white;
+  padding: 0.3em;
+  width: 120px;
+  text-align: center;
+  border-radius: 0.2em;
+}
+
+.lenovo-brand span {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.lenovo-brand sub {
+  font-size: 8px;
+}
+
+.share-button i {
+  color: #E22426;
+  font-size: 30px;
+  float: right;
+}
+
+.left-side-card {
+  background-color: #545D7A;
+  z-index: 1;
+}
+
+.light {
+  fill: #FFBF00;
+}
+
+.night {
+  fill: #152238;
+}
+
+.heading-card-title h3 {
+  font-weight: bold;
+  color: #545D7A;
+}
+
+.heading-card-title .badge-tag {
+  background-color: #1F6C75;
+}
+
+.heading-card-title-info {
+  color: #CF365F;
+}
+
+.card-product-info,
+.price-tag {
+  font-family: 'Acme', sans-serif;
+  font-size: 20px;
+}
+
+.card-product-support {
+  font-family: 'Caveat', cursive;
+}
+
+.card-product-support i {
+  color: #306BF3;
+}
+
+.price-tag {
+  margin-left: 0.5em;
+}
+
+.price-tag .symbol {
+  font-size: 35px;
+  color: #ABC4FF;
+}
+
+.price-tag .cost {
+  letter-spacing: -2px;
+  font-size: 64px;
+  color: #306BF3;
+}
+
+.add-to-cart-button button {
+  margin-top: 2em;
+  background-color: #CF365F;
+  border: none;
+  padding: 0.8em;
+  float: right;
+}
+
+.add-to-cart-button button:hover {
+  background-color: #F9ACA7;
+  color: #2D3436;
+  font-weight: bold;
+}
