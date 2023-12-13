@@ -46,7 +46,6 @@
 ---------
 
 ## 시스템 아키텍처
-![image](https://github.com/Traffic-Techs/ecommerce-market-place/assets/40707686/68ea73bd-d266-4521-9c9d-1cb5028fcd48)
+![image](https://github.com/Traffic-Techs/ecommerce-market-place/assets/40707686/59f9b600-0f6f-4ec6-9131-987306b2d243)
 
-## 시연영상
 
